@@ -1,11 +1,13 @@
-import { ColorScheme, MantineProvider } from '@mantine/core';
+import { ColorScheme, MantineProvider, useMantineTheme } from '@mantine/core';
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
+import Wordle from './components/Wordle';
 
 export default function App() {
+  const theme = useMantineTheme();
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'color-scheme',
     defaultValue: 'dark',
-    getInitialValueInEffect: true
+    getInitialValueInEffect: true,
   });
 
   const toggleColorScheme = (value?: ColorScheme) =>
@@ -14,10 +16,11 @@ export default function App() {
 
   return (
     <MantineProvider
-      theme={{ colorScheme }}
+      theme={{ colorScheme, other: { tileSpacing: theme.spacing.xs } }}
       withGlobalStyles
       withNormalizeCSS
     >
+      <Wordle />
     </MantineProvider>
   );
 }
