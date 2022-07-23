@@ -8,10 +8,10 @@ const useStyles = createStyles((theme) => {
       backgroundColor: darkMode ? theme.colors.dark[6] : theme.colors.gray[2],
       width: 0,
       height: 0,
-      padding: theme.fontSizes.lg,
+      padding: theme.fontSizes.xl,
       color: darkMode ? theme.white : theme.black,
       fontWeight: 500,
-      fontSize: theme.fontSizes.lg,
+      fontSize: theme.fontSizes.xl,
     },
 
     edit: {

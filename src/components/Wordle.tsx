@@ -59,7 +59,7 @@ const Wordle = () => {
     ));
 
   useEffect(() => {
-    getWord().then((w) => setSolution(w.toUpperCase()));
+    getWord().then((w) => setSolution(w));
   }, []);
 
   useEffect(() => {
