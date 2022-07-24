@@ -57,7 +57,7 @@ const Keyboard = ({
     </Stack>
   );
 
-  return <div>{rows}</div>;
+  return <>{rows}</>;
 };
 
 export default Keyboard;

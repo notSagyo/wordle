@@ -18,7 +18,7 @@ const useStyles = createStyles(
       height: keySize,
       padding: 0,
 
-      [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
         width: mobileKeyWidth,
         height: mobileKeyHeight,
       },
@@ -34,26 +34,29 @@ const useStyles = createStyles(
         width: bigKeyWidth,
         filter: `saturate(0.75)`,
 
-        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+        [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
           width: 'auto',
           height: mobileKeyHeight,
           flexGrow: 1,
-          maxWidth: bigKeyWidth,
         },
       },
 
       keyboard: {
         gap: desktopGap,
+        marginTop: desktopGap,
+        marginBottom: desktopGap,
 
-        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+        [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
           gap: mobileGap,
+          marginTop: mobileGap,
+          marginBottom: mobileGap,
         },
       },
 
       keyboardRow: {
         gap: desktopGap,
 
-        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+        [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
           gap: mobileGap,
         },
       },

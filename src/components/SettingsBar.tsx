@@ -11,7 +11,7 @@ const SettingsBar = () => {
   const dark = colorScheme === 'dark';
 
   return (
-    <Group p={theme.spacing.sm} sx={{ position: 'fixed', top: 0, left: 0 }}>
+    <Group p={theme.spacing.sm}>
       <ActionIcon
         variant="default"
         onClick={() => toggleColorScheme()}

@@ -38,8 +38,8 @@ export default function App() {
       >
         <NotificationsProvider position="top-center" limit={1}>
           <Stack
-            sx={{ height: '100vh' }}
-            justify={'center'}
+            sx={{ height: '100%' }}
+            justify={'space-between'}
             spacing={theme.spacing.xl}
           >
             <SettingsBar />
