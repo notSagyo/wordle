@@ -1,4 +1,4 @@
-import { Stack, useMantineTheme, Text } from '@mantine/core';
+import { Stack, useMantineTheme, Text, Group, ActionIcon } from '@mantine/core';
 import { cleanNotifications, showNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import useWindow from '../hooks/useWindow';
@@ -9,11 +9,12 @@ import RowCompleted from './Rows/RowCompleted';
 import RowCurrent from './Rows/RowCurrent';
 import RowEmpty from './Rows/RowEmpty';
 import letters from '../assets/letters.json';
-import useStreak from '../hooks/useStreak';
+import useHistory from '../hooks/useHistory';
 import EndModal from './EndModal';
+import { InfoCircle } from 'tabler-icons-react';
 
 const Wordle = () => {
-  const streak = useStreak();
+  const history = useHistory();
   const [modalOpened, setModalOpened] = useState(false);
   const [gameStatus, setGameStatus] = useState<GameStatus>('playing');
   const [completedWords, setCompletedWords] = useState<string[]>([]);
@@ -71,10 +72,10 @@ const Wordle = () => {
       });
       return;
     } else if (currentWord === solution) {
-      streak.win();
+      history.addWin();
       setGameStatus('won');
     } else if (turn === 6) {
-      streak.lose();
+      history.addLoss();
       setGameStatus('lost');
     }
     setCompletedWords([...completedWords, currentWord]);
@@ -87,9 +88,7 @@ const Wordle = () => {
   }, []);
 
   useEffect(() => {
-    if (gameStatus !== 'playing') {
-      setModalOpened(true);
-    }
+    if (gameStatus !== 'playing') setModalOpened(true);
   }, [gameStatus]);
 
   return (
@@ -97,6 +96,7 @@ const Wordle = () => {
       <EndModal
         gameStatus={gameStatus}
         opened={modalOpened}
+        setOpened={setModalOpened}
         solution={solution}
       />
       <Stack
@@ -116,10 +116,26 @@ const Wordle = () => {
             <RowEmpty solution={solution} key={i} />
           ))}
         {/* SOLUTION */}
-        {gameStatus === 'lost' && (
-          <Text size={'xl'}>
-            Solution: <b>{solution}</b>
-          </Text>
+        {gameStatus !== 'playing' && (
+          <Group spacing={'xs'}>
+            <ActionIcon
+              variant="default"
+              size={'md'}
+              onClick={() => setModalOpened(true)}
+            >
+              <InfoCircle
+                color={
+                  theme.colorScheme === 'dark'
+                    ? theme.white
+                    : theme.colors.dark[4]
+                }
+                size={24}
+              />
+            </ActionIcon>
+            <Text size={'xl'}>
+              SOLUTION: <b>{solution}</b>
+            </Text>
+          </Group>
         )}
       </Stack>
       <Keyboard
