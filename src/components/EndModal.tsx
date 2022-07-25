@@ -55,12 +55,12 @@ const EndModal = ({
         {losses}
       </Text>
       <br />
-      🔥 Current streak:{' '}
+      🔥Current streak:{' '}
       <Text component="span" className={classes.currentStreak}>
         {streak}
       </Text>
       <br />
-      ❤️‍🔥 Best streak:{' '}
+      🥇 Best streak:{' '}
       <Text component="span" className={classes.bestStreak}>
         {maxStreak}
       </Text>
