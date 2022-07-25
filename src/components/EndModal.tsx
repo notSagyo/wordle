@@ -38,7 +38,7 @@ const EndModal = ({
         labelPosition="center"
         label={
           <Text size="xl" weight="bold">
-            {gameStatus === 'won' ? 'YOU WON' : 'YOU LOST'}
+            {gameStatus === 'won' ? 'YOU WIN' : 'YOU LOSE'}
           </Text>
         }
       />

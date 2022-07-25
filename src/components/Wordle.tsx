@@ -74,17 +74,33 @@ const Wordle = () => {
     } else if (currentWord === solution) {
       history.addWin();
       setGameStatus('won');
+      history.setCurrentWord('');
+      history.setCompletedWords([]);
     } else if (turn === 6) {
       history.addLoss();
       setGameStatus('lost');
+      history.setCurrentWord('');
+      history.setCompletedWords([]);
     }
     setCompletedWords([...completedWords, currentWord]);
+    history.setCompletedWords([...completedWords, currentWord]);
     setCurrentWord('');
     setTurn(turn + 1);
   }
 
   useEffect(() => {
-    getWord().then((w) => setSolution(w));
+    if (history.currentWord !== '') {
+      setSolution(history.currentWord);
+      if (history.completedWords.length > 0) {
+        setCompletedWords(history.completedWords);
+        setTurn(history.completedWords.length + 1);
+      }
+    } else {
+      getWord().then((w) => {
+        history.setCurrentWord(w);
+        setSolution(w);
+      });
+    }
   }, []);
 
   useEffect(() => {

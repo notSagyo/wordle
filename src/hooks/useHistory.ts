@@ -1,24 +1,34 @@
 import { useLocalStorage } from '@mantine/hooks';
 
 const useHistory = () => {
-  const [streak, setStreak] = useLocalStorage({
+  const [streak, setStreak] = useLocalStorage<number>({
     key: 'streak',
     defaultValue: 0,
   });
 
-  const [maxStreak, setMaxStreak] = useLocalStorage({
+  const [maxStreak, setMaxStreak] = useLocalStorage<number>({
     key: 'maxStreak',
     defaultValue: 0,
   });
 
-  const [wins, setWins] = useLocalStorage({
+  const [wins, setWins] = useLocalStorage<number>({
     key: 'wins',
     defaultValue: 0,
   });
 
-  const [losses, setLoses] = useLocalStorage({
+  const [losses, setLoses] = useLocalStorage<number>({
     key: 'loses',
     defaultValue: 0,
+  });
+
+  const [currentWord, setCurrentWord] = useLocalStorage<string>({
+    key: 'currentWord',
+    defaultValue: '',
+  });
+
+  const [completedWords, setCompletedWords] = useLocalStorage<string[]>({
+    key: 'completedWords',
+    defaultValue: [],
   });
 
   function addWin() {
@@ -40,7 +50,19 @@ const useHistory = () => {
     setLoses(0);
   }
 
-  return { streak, maxStreak, addWin, addLoss, wins, losses, resetHistory };
+  return {
+    streak,
+    maxStreak,
+    addWin,
+    addLoss,
+    wins,
+    losses,
+    resetHistory,
+    currentWord,
+    setCurrentWord,
+    completedWords,
+    setCompletedWords,
+  };
 };
 
 export default useHistory;

@@ -24,22 +24,22 @@ const useStyles = createStyles((theme, { won, newStreak }: StyleProps) => {
 
     wins: {
       ...numberStyles,
-      color: darkMode ? theme.colors.green : theme.colors.green,
+      color: theme.colors.green[6],
     },
 
     losses: {
       ...numberStyles,
-      color: darkMode ? theme.colors.red : theme.colors.red,
+      color: theme.colors.red,
     },
 
     currentStreak: {
       ...numberStyles,
-      color: newStreak ? theme.colors.green : theme.colors.red,
+      color: won ? theme.colors.green[6] : theme.colors.red,
     },
 
     bestStreak: {
       ...numberStyles,
-      color: darkMode ? theme.colors.green : theme.colors.green,
+      color: theme.colors.green[6],
     },
   };
 });
