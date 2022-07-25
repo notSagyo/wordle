@@ -1,4 +1,4 @@
-import { Modal, Stack, useMantineTheme, Text } from '@mantine/core';
+import { Stack, useMantineTheme, Text } from '@mantine/core';
 import { cleanNotifications, showNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import useWindow from '../hooks/useWindow';
@@ -9,8 +9,11 @@ import RowCompleted from './Rows/RowCompleted';
 import RowCurrent from './Rows/RowCurrent';
 import RowEmpty from './Rows/RowEmpty';
 import letters from '../assets/letters.json';
+import useStreak from '../hooks/useStreak';
+import EndModal from './EndModal';
 
 const Wordle = () => {
+  const streak = useStreak();
   const [modalOpened, setModalOpened] = useState(false);
   const [gameStatus, setGameStatus] = useState<GameStatus>('playing');
   const [completedWords, setCompletedWords] = useState<string[]>([]);
@@ -67,8 +70,13 @@ const Wordle = () => {
         autoClose: 4000,
       });
       return;
-    } else if (currentWord === solution) setGameStatus('won');
-    else if (turn === 6) setGameStatus('lost');
+    } else if (currentWord === solution) {
+      streak.win();
+      setGameStatus('won');
+    } else if (turn === 6) {
+      streak.lose();
+      setGameStatus('lost');
+    }
     setCompletedWords([...completedWords, currentWord]);
     setCurrentWord('');
     setTurn(turn + 1);
@@ -86,22 +94,11 @@ const Wordle = () => {
 
   return (
     <>
-      <Modal
-        title={
-          <Text size="xl" weight="bold">
-            {gameStatus === 'won' ? 'YOU WON' : 'YOU LOST'}
-          </Text>
-        }
+      <EndModal
+        gameStatus={gameStatus}
         opened={modalOpened}
-        onClose={() => setModalOpened(false)}
-        withCloseButton={false}
-        overlayOpacity={0.5}
-        overlayBlur={2.5}
-      >
-        <Text sx={{ letterSpacing: 0.15 }}>
-          Some lorem ipsum stuff... <br /> Solution: {solution}
-        </Text>
-      </Modal>
+        solution={solution}
+      />
       <Stack
         justify={'center'}
         align={'center'}
@@ -121,8 +118,7 @@ const Wordle = () => {
         {/* SOLUTION */}
         {gameStatus === 'lost' && (
           <Text size={'xl'}>
-            Solution:
-            <b> {solution}</b>
+            Solution: <b>{solution}</b>
           </Text>
         )}
       </Stack>

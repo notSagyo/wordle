@@ -15,14 +15,14 @@ const SettingsBar = () => {
       <ActionIcon
         variant="default"
         onClick={() => toggleColorScheme()}
-        size="md"
+        size="lg"
       >
         {dark ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-sun"
-            width="44"
-            height="44"
+            width="24"
+            height="24"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="#FFF"

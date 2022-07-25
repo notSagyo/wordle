@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Group, Stack } from '@mantine/core';
 import useStyles from './Keyboard.styles';
 import tileStyles from '../Tile/Tile.styles';
@@ -21,6 +21,9 @@ const Keyboard = ({
   completedWords,
   solution,
 }: KeyboardProps) => {
+  const [correctLetters, setCorrectLetters] = useState<string[]>([]);
+  const [presentLetters, setPresentLetters] = useState<string[]>([]);
+  const [absentLetters, setAbsentLetters] = useState<string[]>([]);
   const longestRow = letters.split(' ')[0].length;
   const { classes, cx } = useStyles({ letterCount: longestRow });
   const { classes: tileClasses } = tileStyles();
@@ -38,9 +41,11 @@ const Keyboard = ({
     onKeyPressed('BACKSPACE');
   }
 
-  const correctLetters = getCorrectLetters(completedWords, solution);
-  const presentLetters = getPresentLetters(completedWords, solution);
-  const absentLetters = getAbsentLetters(completedWords, solution);
+  useEffect(() => {
+    setCorrectLetters(getCorrectLetters(completedWords, solution));
+    setPresentLetters(getPresentLetters(completedWords, solution));
+    setAbsentLetters(getAbsentLetters(completedWords, solution));
+  }, [completedWords, solution]);
 
   function getStatusClass(letter: string) {
     if (correctLetters.includes(letter)) return tileClasses.correct;
