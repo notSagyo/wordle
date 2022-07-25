@@ -5,13 +5,14 @@ import {
   Stack,
   useMantineTheme,
 } from '@mantine/core';
-import { useHotkeys, useLocalStorage } from '@mantine/hooks';
+import { useHotkeys, useLocalStorage, useMediaQuery } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
 import SettingsBar from './components/SettingsBar';
 import Wordle from './components/Wordle';
 
 export default function App() {
   const theme = useMantineTheme();
+  const md = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'color-scheme',
     defaultValue: 'dark',
@@ -35,7 +36,7 @@ export default function App() {
         <NotificationsProvider position="top-center" limit={1}>
           <Stack
             sx={{ height: '100%' }}
-            justify={'space-between'}
+            justify={md ? 'space-between' : 'center'}
             spacing={theme.spacing.xl}
           >
             <SettingsBar />

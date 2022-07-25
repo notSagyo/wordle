@@ -51,7 +51,11 @@ const useStyles = createStyles((theme, { letterCount }: StyleProps) => {
     keyboard: {
       gap: desktopGap,
       marginTop: desktopGap,
-      marginBottom: desktopGap,
+      marginBottom: 'auto',
+
+      [`@media (max-width: ${theme.breakpoints.md}px)`]: {
+        marginBottom: mobileGap,
+      },
 
       [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
         gap: mobileGap,

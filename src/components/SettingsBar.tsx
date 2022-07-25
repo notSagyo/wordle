@@ -4,14 +4,16 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 const SettingsBar = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
   const dark = colorScheme === 'dark';
+  const md = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
 
   return (
-    <Group p={theme.spacing.sm}>
+    <Group p={theme.spacing.md} sx={{ marginBottom: !md ? 'auto' : '' }}>
       <ActionIcon
         variant="default"
         onClick={() => toggleColorScheme()}
