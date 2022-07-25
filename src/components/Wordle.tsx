@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import useWindow from '../hooks/useWindow';
 import { getWord, isValidWord } from '../service/request';
 import { GameStatus } from '../types';
-import Keyboard from './Keyboard';
-import RowCompleted from './RowCompleted';
-import RowCurrent from './RowCurrent';
-import RowEmpty from './RowEmpty';
+import Keyboard from './Keyboard/Keyboard';
+import RowCompleted from './Rows/RowCompleted';
+import RowCurrent from './Rows/RowCurrent';
+import RowEmpty from './Rows/RowEmpty';
 import letters from '../assets/letters.json';
 
 const Wordle = () => {
@@ -21,30 +21,40 @@ const Wordle = () => {
   useWindow('keydown', handleKeyDown);
 
   function handleKeyDown(event: KeyboardEvent) {
-    if (gameStatus !== 'playing') return;
-    else if (event.shiftKey || event.ctrlKey || event.altKey) return;
-    else if (event.key === 'Backspace') {
-      onBackspace();
-    } else if (event.key === 'Enter') {
+    if (
+      gameStatus !== 'playing' ||
+      event.shiftKey ||
+      event.ctrlKey ||
+      event.altKey
+    )
+      return;
+    onKeyPressed(event.key);
+  }
+
+  function onKeyPressed(key: string) {
+    key = key.toUpperCase();
+    if (key === 'ESCAPE') onEscape();
+    else if (key === 'BACKSPACE' && currentWord.length > 0) onBackspace();
+    else if (key === 'ENTER' && currentWord.length === solution.length)
       onEnter();
-    } else if (event.key.length === 1 && /[a-z]/i.test(event.key)) {
-      onLetter(event.key);
-    }
+    else if (/^[a-z]{1}$/i.test(key) && currentWord.length < solution.length)
+      onLetter(key);
+  }
+
+  function onEscape() {
+    setCurrentWord('');
   }
 
   function onBackspace() {
-    if (currentWord.length < 1) return;
     setCurrentWord(currentWord.slice(0, -1));
   }
 
   function onLetter(letter: string) {
-    if (currentWord.length >= solution.length) return;
     const newWord = currentWord + letter;
     setCurrentWord(newWord.toUpperCase());
   }
 
   async function onEnter() {
-    if (currentWord.length !== solution.length) return;
     const isValid = await isValidWord(currentWord);
     if (!isValid) {
       cleanNotifications();
@@ -102,20 +112,25 @@ const Wordle = () => {
           <RowCompleted key={i} word={word} solution={solution} />
         ))}
         {/* CURRENT WORD */}
-        {gameStatus === 'playing' && (
-          <RowCurrent word={currentWord} solution={solution} />
-        )}
+        {turn <= 6 && <RowCurrent word={currentWord} solution={solution} />}
         {/* EMPTY ROWS */}
         {turn < 6 &&
           Array.from(Array(6 - turn)).map((_, i) => (
             <RowEmpty solution={solution} key={i} />
           ))}
+        {/* SOLUTION */}
+        {gameStatus === 'lost' && (
+          <Text size={'xl'}>
+            Solution:
+            <b> {solution}</b>
+          </Text>
+        )}
       </Stack>
       <Keyboard
         letters={letters.english}
-        onBackspace={onBackspace}
-        onEnter={onEnter}
-        onLetter={onLetter}
+        onKeyPressed={onKeyPressed}
+        completedWords={completedWords}
+        solution={solution}
       />
     </>
   );

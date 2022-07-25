@@ -1,6 +1,6 @@
 import { Group, useMantineTheme } from '@mantine/core';
-import { TileStatus } from '../types';
-import Tile from './Tile';
+import { TileStatus } from '../../types';
+import Tile from '../Tile/Tile';
 
 interface RowCompletedProps {
   word: string;

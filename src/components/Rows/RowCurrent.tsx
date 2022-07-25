@@ -1,5 +1,5 @@
 import { Group, useMantineTheme } from '@mantine/core';
-import Tile from './Tile';
+import Tile from '../Tile/Tile';
 
 interface RowCompletedProps {
   word: string;

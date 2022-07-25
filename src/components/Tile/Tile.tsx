@@ -1,5 +1,5 @@
 import { Center, Paper } from '@mantine/core';
-import { TileStatus } from '../types';
+import { TileStatus } from '../../types';
 import useStyles from './Tile.styles';
 
 interface TileProps {
@@ -10,7 +10,7 @@ interface TileProps {
 const Tile = ({ value, status }: TileProps) => {
   const { classes, cx } = useStyles();
 
-  const statusClasses = cx({
+  const statusClasses = cx(classes.tile, {
     [classes.correct]: status === 'correct',
     [classes.present]: status === 'present',
     [classes.absent]: status === 'absent',
@@ -19,7 +19,7 @@ const Tile = ({ value, status }: TileProps) => {
   });
 
   return (
-    <Paper className={cx(classes.tile, statusClasses)}>
+    <Paper className={statusClasses}>
       <Center sx={{ height: '100%' }}>{value}</Center>
     </Paper>
   );

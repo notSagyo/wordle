@@ -28,11 +28,7 @@ export default function App() {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider
-        theme={{
-          colorScheme,
-          other: { tileSpacing: theme.spacing.xs },
-          primaryColor: 'gray',
-        }}
+        theme={{ colorScheme, other: { tileSpacing: theme.spacing.xs } }}
         withGlobalStyles
         withNormalizeCSS
       >
