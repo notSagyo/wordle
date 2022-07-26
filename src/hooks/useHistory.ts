@@ -21,16 +21,6 @@ const useHistory = () => {
     defaultValue: 0,
   });
 
-  const [currentWord, setCurrentWord] = useLocalStorage<string>({
-    key: 'currentWord',
-    defaultValue: '',
-  });
-
-  const [completedWords, setCompletedWords] = useLocalStorage<string[]>({
-    key: 'completedWords',
-    defaultValue: [],
-  });
-
   function addWin() {
     const newStreak = streak + 1;
     setWins(wins + 1);
@@ -58,10 +48,6 @@ const useHistory = () => {
     wins,
     losses,
     resetHistory,
-    currentWord,
-    setCurrentWord,
-    completedWords,
-    setCompletedWords,
   };
 };
 

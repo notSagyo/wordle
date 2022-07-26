@@ -13,9 +13,12 @@ const RowCurrent = ({ word, solution }: RowCompletedProps) => {
     .split('')
     .map((letter, i) => <Tile key={i} status="edit" value={letter} />);
 
-  const emptytiles = Array.from(Array(solution.length - word.length)).map(
-    (letter, i) => <Tile key={i} status="empty" value={letter} />
-  );
+  const emptytiles =
+    solution.length > word.length
+      ? Array.from(Array(solution.length - word.length)).map((letter, i) => (
+          <Tile key={i} status="empty" value={letter} />
+        ))
+      : [];
 
   return (
     <Group spacing={theme.other.tileSpacing}>

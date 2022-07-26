@@ -3,25 +3,33 @@ import { cleanNotifications, showNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import useWindow from '../hooks/useWindow';
 import { getWord, isValidWord } from '../service/request';
-import { GameStatus } from '../types';
 import Keyboard from './Keyboard/Keyboard';
 import RowCompleted from './Rows/RowCompleted';
 import RowCurrent from './Rows/RowCurrent';
 import RowEmpty from './Rows/RowEmpty';
 import letters from '../assets/letters.json';
 import useHistory from '../hooks/useHistory';
-import EndModal from './EndModal';
-import { InfoCircle } from 'tabler-icons-react';
+import StatsModal from './StatsModal';
+import { Refresh } from 'tabler-icons-react';
+import useGameState from '../hooks/useGameState';
 
 const Wordle = () => {
+  const {
+    currentWord,
+    setCurrentWord,
+    completedWords,
+    setCompletedWords,
+    solution,
+    setSolution,
+    gameStatus,
+    setGameStatus,
+    turn,
+    setTurn,
+    cleanup,
+  } = useGameState();
   const history = useHistory();
-  const [modalOpened, setModalOpened] = useState(false);
-  const [gameStatus, setGameStatus] = useState<GameStatus>('playing');
-  const [completedWords, setCompletedWords] = useState<string[]>([]);
-  const [currentWord, setCurrentWord] = useState<string>('');
-  const [solution, setSolution] = useState<string>('');
-  const [turn, setTurn] = useState<number>(1);
   const theme = useMantineTheme();
+  const [statsOpened, setStatsOpened] = useState(false);
   useWindow('keydown', handleKeyDown);
 
   function handleKeyDown(event: KeyboardEvent) {
@@ -74,47 +82,37 @@ const Wordle = () => {
     } else if (currentWord === solution) {
       history.addWin();
       setGameStatus('won');
-      history.setCurrentWord('');
-      history.setCompletedWords([]);
     } else if (turn === 6) {
       history.addLoss();
       setGameStatus('lost');
-      history.setCurrentWord('');
-      history.setCompletedWords([]);
     }
     setCompletedWords([...completedWords, currentWord]);
-    history.setCompletedWords([...completedWords, currentWord]);
     setCurrentWord('');
     setTurn(turn + 1);
   }
 
   useEffect(() => {
-    if (history.currentWord !== '') {
-      setSolution(history.currentWord);
-      if (history.completedWords.length > 0) {
-        setCompletedWords(history.completedWords);
-        setTurn(history.completedWords.length + 1);
-      }
-    } else {
+    cleanup();
+    if (gameStatus !== 'playing') {
+      setStatsOpened(true);
+      return;
+    }
+
+    if (completedWords.length > 0) {
+      setCompletedWords(completedWords);
+      setTurn(completedWords.length + 1);
+    }
+
+    if (solution === '') {
       getWord().then((w) => {
-        history.setCurrentWord(w);
         setSolution(w);
       });
     }
-  }, []);
-
-  useEffect(() => {
-    if (gameStatus !== 'playing') setModalOpened(true);
   }, [gameStatus]);
 
   return (
     <>
-      <EndModal
-        gameStatus={gameStatus}
-        opened={modalOpened}
-        setOpened={setModalOpened}
-        solution={solution}
-      />
+      <StatsModal opened={statsOpened} setOpened={setStatsOpened} />
       <Stack
         justify={'center'}
         align={'center'}
@@ -124,36 +122,34 @@ const Wordle = () => {
         {completedWords.map((word, i) => (
           <RowCompleted key={i} word={word} solution={solution} />
         ))}
+
         {/* CURRENT WORD */}
         {turn <= 6 && <RowCurrent word={currentWord} solution={solution} />}
+
         {/* EMPTY ROWS */}
         {turn < 6 &&
           Array.from(Array(6 - turn)).map((_, i) => (
             <RowEmpty solution={solution} key={i} />
           ))}
+
         {/* SOLUTION */}
         {gameStatus !== 'playing' && (
           <Group spacing={'xs'}>
             <ActionIcon
-              variant="default"
-              size={'md'}
-              onClick={() => setModalOpened(true)}
+              variant="filled"
+              color={'green'}
+              onClick={() => setStatsOpened(true)}
+              size="lg"
             >
-              <InfoCircle
-                color={
-                  theme.colorScheme === 'dark'
-                    ? theme.white
-                    : theme.colors.dark[4]
-                }
-                size={24}
-              />
+              <Refresh color={theme.white} />
             </ActionIcon>
             <Text size={'xl'}>
-              SOLUTION: <b>{solution}</b>
+              ANSWER: <b>{solution}</b>
             </Text>
           </Group>
         )}
       </Stack>
+
       <Keyboard
         letters={letters.english}
         onKeyPressed={onKeyPressed}

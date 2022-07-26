@@ -19,7 +19,7 @@
   "rules": {
     "linebreak-style": ["error", "windows"],
     "semi": ["warn", "always"],
-    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
       { "ignoreRestSiblings": true }
