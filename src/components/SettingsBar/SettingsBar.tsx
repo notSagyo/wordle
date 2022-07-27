@@ -15,16 +15,14 @@ import {
   MoonStars,
   Sun,
 } from 'tabler-icons-react';
-import {
-  availableLanguages,
-  useLanguageContext,
-} from '../../context/LanguageContext';
 import flags from '../../assets/flags.json';
 import useStyles from './SettingsBar.styles';
 import StatsModal from '../StatsModal';
+import { AvailableLanguages } from '../../types';
+import useGameState from '../../hooks/useGameState';
 
 interface LanguagesInterface {
-  language: availableLanguages;
+  language: AvailableLanguages;
   image: string;
 }
 
@@ -40,11 +38,13 @@ const languages: LanguagesInterface[] = [
 ];
 
 const SettingsBar = () => {
+  const { gameLanguage, setGameLanguage, playAgain } = useGameState();
   const [statsOpened, setStatsOpened] = useState<boolean>(false);
-  const [langSelected, setLangSelected] = useState(languages[0]);
+  const [langSelected, setLangSelected] = useState(
+    languages.find((lang) => lang.language === gameLanguage)
+  );
   const [langOpened, setLangOpened] = useState(false);
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const { language, setLanguage } = useLanguageContext();
   const { classes } = useStyles({ opened: langOpened });
   const theme = useMantineTheme();
 
@@ -54,7 +54,7 @@ const SettingsBar = () => {
   const langItems = languages.map((item) => (
     <Menu.Item
       icon={<Image src={item.image} width={20} height={15} />}
-      onClick={() => setLanguage(item.language)}
+      onClick={() => setGameLanguage(item.language)}
       key={item.language}
     >
       {item.language}
@@ -62,9 +62,12 @@ const SettingsBar = () => {
   ));
 
   useEffect(() => {
-    const newLang = languages.find((lang) => lang.language === language);
-    newLang && setLangSelected(newLang);
-  }, [language]);
+    const newLang = languages.find((lang) => lang.language === gameLanguage);
+    if (newLang && langSelected?.language !== gameLanguage) {
+      setLangSelected(newLang);
+      playAgain();
+    }
+  }, [gameLanguage]);
 
   return (
     <>
@@ -78,8 +81,8 @@ const SettingsBar = () => {
           control={
             <UnstyledButton className={classes.control}>
               <Group spacing="xs">
-                <Image src={langSelected.image} width={20} height={15} />
-                <span className={classes.label}>{langSelected.language}</span>
+                <Image src={langSelected?.image} width={20} height={15} />
+                <span className={classes.label}>{langSelected?.language}</span>
               </Group>
               <ChevronDown size={16} className={classes.icon} />
             </UnstyledButton>

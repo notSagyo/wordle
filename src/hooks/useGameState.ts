@@ -1,5 +1,5 @@
 import { useLocalStorage } from '@mantine/hooks';
-import { GameStatus } from '../types';
+import { AvailableLanguages, GameStatus } from '../types';
 
 const useGameState = () => {
   const [currentWord, setCurrentWord] = useLocalStorage<string>({
@@ -27,14 +27,10 @@ const useGameState = () => {
     defaultValue: 1,
   });
 
-  const [cleanupDate] = useLocalStorage<number>({
-    key: 'cleanupDate',
-    defaultValue: 1658822682796,
+  const [gameLanguage, setGameLanguage] = useLocalStorage<AvailableLanguages>({
+    key: 'language',
+    defaultValue: 'EN',
   });
-
-  function cleanup() {
-    if (cleanupDate != 1658822682796) playAgain();
-  }
 
   function playAgain() {
     setGameStatus('playing');
@@ -53,10 +49,11 @@ const useGameState = () => {
     setSolution,
     gameStatus,
     setGameStatus,
-    playAgain,
     turn,
     setTurn,
-    cleanup,
+    gameLanguage,
+    setGameLanguage,
+    playAgain,
   };
 };
 

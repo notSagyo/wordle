@@ -7,7 +7,7 @@ import Keyboard from './Keyboard/Keyboard';
 import RowCompleted from './Rows/RowCompleted';
 import RowCurrent from './Rows/RowCurrent';
 import RowEmpty from './Rows/RowEmpty';
-import letters from '../assets/letters.json';
+import lettersJson from '../assets/letters.json';
 import useHistory from '../hooks/useHistory';
 import StatsModal from './StatsModal';
 import { Refresh } from 'tabler-icons-react';
@@ -25,10 +25,11 @@ const Wordle = () => {
     setGameStatus,
     turn,
     setTurn,
-    cleanup,
+    gameLanguage,
   } = useGameState();
   const history = useHistory();
   const theme = useMantineTheme();
+  const [letters, setLetters] = useState<string>('');
   const [statsOpened, setStatsOpened] = useState(false);
   useWindow('keydown', handleKeyDown);
 
@@ -67,7 +68,7 @@ const Wordle = () => {
   }
 
   async function onEnter() {
-    const isValid = await isValidWord(currentWord);
+    const isValid = await isValidWord(currentWord, gameLanguage);
     if (!isValid) {
       cleanNotifications();
       showNotification({
@@ -92,7 +93,6 @@ const Wordle = () => {
   }
 
   useEffect(() => {
-    cleanup();
     if (gameStatus !== 'playing') {
       setStatsOpened(true);
       return;
@@ -104,11 +104,15 @@ const Wordle = () => {
     }
 
     if (solution === '') {
-      getWord().then((w) => {
+      getWord(gameLanguage).then((w) => {
         setSolution(w);
       });
     }
-  }, [gameStatus]);
+  }, [gameStatus, solution]);
+
+  useEffect(() => {
+    setLetters(lettersJson[gameLanguage]);
+  }, [gameLanguage]);
 
   return (
     <>
@@ -151,7 +155,7 @@ const Wordle = () => {
       </Stack>
 
       <Keyboard
-        letters={letters.english}
+        letters={letters}
         onKeyPressed={onKeyPressed}
         completedWords={completedWords}
         solution={solution}

@@ -9,7 +9,6 @@ import { useHotkeys, useLocalStorage, useMediaQuery } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
 import SettingsBar from './components/SettingsBar/SettingsBar';
 import Wordle from './components/Wordle';
-import { LanguageContextProvider } from './context/LanguageContext';
 
 export default function App() {
   const theme = useMantineTheme();
@@ -40,10 +39,8 @@ export default function App() {
             justify={md ? 'space-between' : 'center'}
             spacing={theme.spacing.xl}
           >
-            <LanguageContextProvider>
-              <SettingsBar />
-              <Wordle />
-            </LanguageContextProvider>
+            <SettingsBar />
+            <Wordle />
           </Stack>
         </NotificationsProvider>
       </MantineProvider>
