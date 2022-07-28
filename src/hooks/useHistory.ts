@@ -21,10 +21,21 @@ const useHistory = () => {
     defaultValue: 0,
   });
 
-  function addWin() {
+  const [guessDistribution, setGuessDistribution] = useLocalStorage<
+    [number, number, number, number, number, number]
+  >({
+    key: 'guessDistribution',
+    defaultValue: [0, 0, 0, 0, 0, 0],
+  });
+
+  function addWin(turn: number) {
     const newStreak = streak + 1;
+    const newGuessDistribution = guessDistribution;
+    newGuessDistribution[turn - 1] += 1;
+
     setWins(wins + 1);
     setStreak(newStreak);
+    setGuessDistribution(newGuessDistribution);
     if (newStreak >= maxStreak) setMaxStreak(newStreak);
   }
 
@@ -38,6 +49,7 @@ const useHistory = () => {
     setMaxStreak(0);
     setWins(0);
     setLoses(0);
+    setGuessDistribution([0, 0, 0, 0, 0, 0]);
   }
 
   return {
@@ -48,6 +60,8 @@ const useHistory = () => {
     wins,
     losses,
     resetHistory,
+    guessDistribution,
+    setGuessDistribution,
   };
 };
 

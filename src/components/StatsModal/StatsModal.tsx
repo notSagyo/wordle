@@ -1,4 +1,13 @@
-import { Modal, Button, Text, Divider, Group } from '@mantine/core';
+import {
+  Modal,
+  Button,
+  Text,
+  Divider,
+  Group,
+  Progress,
+  useMantineTheme,
+} from '@mantine/core';
+import _ from 'lodash';
 import { Trash } from 'tabler-icons-react';
 import transl from '../../assets/translation.json';
 import useGameState from '../../hooks/useGameState';
@@ -17,7 +26,9 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
     solution,
     gameLanguage: lang,
   } = useGameState();
-  const { losses, maxStreak, streak, wins, resetHistory } = useHistory();
+  const theme = useMantineTheme();
+  const { losses, maxStreak, streak, wins, resetHistory, guessDistribution } =
+    useHistory();
   const { classes } = useStyles({ lost: gameStatus === 'lost' });
 
   function handlePlayAgain() {
@@ -35,6 +46,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
       className={classes.root}
       trapFocus={false}
     >
+      {/* TITLE */}
       <Divider
         variant="solid"
         labelPosition="center"
@@ -48,14 +60,14 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
           </Text>
         }
       />
+      {/* STATS */}
       {gameStatus !== 'playing' && (
-        <>
+        <div>
           ❓ {transl[lang].solution}:{' '}
           <Text component="span" className={classes.solution}>
-            {solution}
+            {solution} <br />
           </Text>
-          <br />
-        </>
+        </div>
       )}
       ✅ {transl[lang].wins}:{' '}
       <Text component="span" className={classes.wins}>
@@ -75,7 +87,34 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
       <Text component="span" className={classes.bestStreak}>
         {maxStreak}
       </Text>
-      <Group position="center" mt={'md'}>
+      {/* GUESS DISTRIBUTION */}
+      <Divider
+        variant="solid"
+        labelPosition="center"
+        mt={'lg'}
+        mb={'xs'}
+        label={
+          <Text size="xl" weight="bold">
+            {transl[lang].guessDistribution}
+          </Text>
+        }
+      />
+      <div>
+        {guessDistribution.map((guess, i) => (
+          <Group key={i} position="apart">
+            <Text className={classes.distNumber}>{i + 1}</Text>
+            <Progress
+              radius={'xs'}
+              value={(guess / _.sum(guessDistribution)) * 100}
+              sx={{ flexGrow: 1 }}
+              color={theme.other.green}
+            />
+            <Text className={classes.distNumber}>{guessDistribution[i]}</Text>
+          </Group>
+        ))}
+      </div>
+      {/* BUTTONS */}
+      <Group position="center" mt={'lg'}>
         <Button color={'red'} onClick={resetHistory}>
           <Trash></Trash>
         </Button>

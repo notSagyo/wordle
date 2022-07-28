@@ -82,7 +82,7 @@ const Wordle = () => {
       });
       return;
     } else if (currentWord === solution) {
-      history.addWin();
+      history.addWin(turn);
       setGameStatus('won');
     } else if (turn === 6) {
       history.addLoss();

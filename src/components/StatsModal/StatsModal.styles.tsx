@@ -50,6 +50,12 @@ const useStyles = createStyles((theme, { lost }: StyleProps) => {
         backgroundColor: theme.fn.darken(theme.other.green, 0.05),
       },
     },
+
+    distNumber: {
+      color: darkMode ? theme.colors.dark[1] : theme.black,
+      fontWeight: 'bold',
+      lineHeight: 1.75,
+    },
   };
 });
 

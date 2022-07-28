@@ -45,8 +45,8 @@ const useStyles = createStyles((theme, { letterCount }: StyleProps) => {
         width: 'auto',
         height: mobileKeyHeight,
         flexGrow: 1,
-        '&:first-child': { marginLeft: mobileGap * 0.5 },
-        '&:last-child': { marginRight: mobileGap * 0.5 },
+        '&:first-of-type': { marginLeft: mobileGap * 0.5 },
+        '&:last-of-type': { marginRight: mobileGap * 0.5 },
       },
     },
 
