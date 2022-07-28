@@ -2,7 +2,7 @@ import { Stack, useMantineTheme, Text, Group, ActionIcon } from '@mantine/core';
 import { cleanNotifications, showNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import useWindow from '../hooks/useWindow';
-import { getWord, isValidWord } from '../service/request';
+import { getWord, isValidWord } from '../services/words';
 import Keyboard from './Keyboard/Keyboard';
 import RowCompleted from './Rows/RowCompleted';
 import RowCurrent from './Rows/RowCurrent';
@@ -33,9 +33,9 @@ const Wordle = () => {
   const [statsOpened, setStatsOpened] = useState(false);
   const history = useHistory();
   const theme = useMantineTheme();
-  const transl = translationJSON[lang] || translationJSON['EN'];
-  const letters = langJSON[lang]?.letters || langJSON['EN'].letters;
-  const attepmts = langJSON[lang]?.attempts || langJSON['EN'].attempts;
+  const transl = translationJSON?.[lang] || translationJSON['EN'];
+  const letters = langJSON?.[lang]?.letters || langJSON['EN'].letters;
+  const attepmts = langJSON?.[lang]?.attempts || langJSON['EN'].attempts;
   useWindow('keydown', handleKeyDown);
 
   function handleKeyDown(event: KeyboardEvent) {

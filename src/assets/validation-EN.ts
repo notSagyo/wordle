@@ -11,7 +11,7 @@
  * https://gist.github.com/cfreshman/a7b776506c73284511034e63af1017ee
  * https://gist.github.com/cfreshman/cdcdf777450c5b5301e439061d29694c
  */
-export const wordsValidationEN = [
+export const validationEN = [
   'SAGYO',
   'ABACK',
   'ABASE',

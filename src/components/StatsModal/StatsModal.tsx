@@ -30,7 +30,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
   const { losses, maxStreak, streak, wins, resetHistory, guessDistribution } =
     useHistory();
   const { classes } = useStyles({ lost: gameStatus === 'lost' });
-  const transl = translationJSON[lang] || translationJSON['EN'];
+  const transl = translationJSON?.[lang] || translationJSON['EN'];
 
   function handlePlayAgain() {
     setOpened(false);

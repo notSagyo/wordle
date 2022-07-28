@@ -1,12 +1,12 @@
-// TODO: Make union with wordsES
 /**
- * Word list obtained from:
+ * Word list obtained from
  *
  * Repository: https://github.com/lorenbrichter/Words
  *
  * File: https://raw.githubusercontent.com/lorenbrichter/Words/master/Words/es.txt
  */
-export const wordsValidationES = [
+
+export const validationES = [
   'SALIR',
   'TENER',
   'TOCAR',

@@ -20,7 +20,7 @@ import StatsModal from '../StatsModal/StatsModal';
 import { AvailableLanguages } from '../../types';
 import useGameState from '../../hooks/useGameState';
 import langJSON from '../../assets/languages.json';
-import { words } from '../../assets/words';
+import { solutionWords } from '../../assets/solutions';
 
 interface LanguagesInterface {
   language: AvailableLanguages;
@@ -28,10 +28,10 @@ interface LanguagesInterface {
 }
 
 const languages: LanguagesInterface[] = [];
-for (const key in words) {
+for (const key in solutionWords) {
   languages.push({
     language: (key as AvailableLanguages) || 'EN',
-    image: langJSON[key as AvailableLanguages]?.flag || langJSON['EN'].flag,
+    image: langJSON?.[key as AvailableLanguages]?.flag || langJSON['EN'].flag,
   });
 }
 
