@@ -1,18 +1,18 @@
 {
   "EN": {
-    "flag": "/assets/gb.svg",
+    "flag": "https://raw.githubusercontent.com/notSagyo/wordle/64de210b02e1cfed71f25ab111ff60392da7a196/public/assets/gb.svg",
     "letters": "QWERTYUIOP ASDFGHJKL ZXCVBNM",
     "attempts": 6
   },
 
   "ES": {
-    "flag": "/assets/es.svg",
+    "flag": "https://raw.githubusercontent.com/notSagyo/wordle/64de210b02e1cfed71f25ab111ff60392da7a196/public/assets/es.svg",
     "letters": "QWERTYUIOP ASDFGHJKLÑ ZXCVBNM",
     "attempts": 6
   },
 
   "LEAGUE": {
-    "flag": "/assets/league.svg",
+    "flag": "https://raw.githubusercontent.com/notSagyo/wordle/64de210b02e1cfed71f25ab111ff60392da7a196/public/assets/league.svg",
     "attempts": 3
   }
 }

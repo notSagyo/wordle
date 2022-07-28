@@ -55,7 +55,7 @@ const Wordle = () => {
     else if (key === 'BACKSPACE' && currentWord.length > 0) onBackspace();
     else if (key === 'ENTER' && currentWord.length === solution.length)
       onEnter();
-    else if (/^[a-z]{1}$/i.test(key) && currentWord.length < solution.length)
+    else if (letters.includes(key) && currentWord.length < solution.length)
       onLetter(key);
   }
 

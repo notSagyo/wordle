@@ -60,7 +60,7 @@ const Keyboard = ({
       {letters.split(' ').map((row, i) => (
         <Group key={i} position="center" className={classes.keyboardRow}>
           {/* ENTER BUTTON */}
-          {i === 2 && (
+          {i === letters.split(' ').length - 1 && (
             <Button onClick={handleEnter} className={classes.bigKey}>
               OK
             </Button>
@@ -76,7 +76,7 @@ const Keyboard = ({
             </Button>
           ))}
           {/* BACK BUTTON */}
-          {i === 2 && (
+          {i === letters.split(' ').length - 1 && (
             <Button onClick={handleBackspace} className={classes.bigKey}>
               <Backspace size={24} />
             </Button>
