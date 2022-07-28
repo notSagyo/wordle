@@ -1,7 +1,8 @@
 import { Modal, Button, Text, Divider, Group } from '@mantine/core';
 import { Trash } from 'tabler-icons-react';
-import useGameState from '../hooks/useGameState';
-import useHistory from '../hooks/useHistory';
+import transl from '../../assets/translation.json';
+import useGameState from '../../hooks/useGameState';
+import useHistory from '../../hooks/useHistory';
 import useStyles from './StatsModal.styles';
 
 interface StatsModalProps {
@@ -10,7 +11,12 @@ interface StatsModalProps {
 }
 
 const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
-  const { gameStatus, playAgain, solution } = useGameState();
+  const {
+    gameStatus,
+    playAgain,
+    solution,
+    gameLanguage: lang,
+  } = useGameState();
   const { losses, maxStreak, streak, wins, resetHistory } = useHistory();
   const { classes } = useStyles({ lost: gameStatus === 'lost' });
 
@@ -35,37 +41,37 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
         label={
           <Text size="xl" weight="bold">
             {gameStatus === 'won'
-              ? 'YOU WIN'
+              ? transl[lang].win
               : gameStatus === 'lost'
-              ? 'YOU LOSE'
-              : 'STATS'}
+              ? transl[lang].lose
+              : transl[lang].stats}
           </Text>
         }
       />
       {gameStatus !== 'playing' && (
         <>
-          ❓ Solution:{' '}
+          ❓ {transl[lang].solution}:{' '}
           <Text component="span" className={classes.solution}>
             {solution}
           </Text>
           <br />
         </>
       )}
-      ✅ Wins:{' '}
+      ✅ {transl[lang].wins}:{' '}
       <Text component="span" className={classes.wins}>
         {wins}
       </Text>
-      <br />❌ Losses:{' '}
+      <br />❌ {transl[lang].losses}:{' '}
       <Text component="span" className={classes.losses}>
         {losses}
       </Text>
       <br />
-      🔥Current streak:{' '}
+      🔥 {transl[lang].streak}:{' '}
       <Text component="span" className={classes.currentStreak}>
         {streak}
       </Text>
       <br />
-      🥇 Best streak:{' '}
+      🥇 {transl[lang].bestStreak}:{' '}
       <Text component="span" className={classes.bestStreak}>
         {maxStreak}
       </Text>
@@ -74,8 +80,12 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
           <Trash></Trash>
         </Button>
         {gameStatus !== 'playing' && (
-          <Button onClick={handlePlayAgain} color="green" autoFocus={true}>
-            PLAY AGAIN
+          <Button
+            onClick={handlePlayAgain}
+            autoFocus={true}
+            className={classes.playAgainBtn}
+          >
+            {transl[lang].playAgain}
           </Button>
         )}
       </Group>

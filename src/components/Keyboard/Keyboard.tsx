@@ -7,6 +7,7 @@ import {
   getCorrectLetters,
   getPresentLetters,
 } from './KeyboardHelper';
+import { Backspace } from 'tabler-icons-react';
 
 interface KeyboardProps {
   letters: string;
@@ -77,7 +78,7 @@ const Keyboard = ({
           {/* BACK BUTTON */}
           {i === 2 && (
             <Button onClick={handleBackspace} className={classes.bigKey}>
-              BACK
+              <Backspace size={24} />
             </Button>
           )}
         </Group>

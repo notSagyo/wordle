@@ -1,0 +1,31 @@
+{
+  "EN": {
+    "stats": "STATS",
+    "win": "YOU WIN",
+    "lose": "YOU LOSE",
+    "solution": "Solution",
+    "answer": "ANSWER",
+    "wins": "Wins",
+    "losses": "Losses",
+    "streak": "Current streak",
+    "bestStreak": "Best streak",
+    "playAgain": "PLAY AGAIN",
+    "wordNotFound": "Invalid word",
+    "wordNotFoundDesc": "I'm not saying it doesn't exist... but it's not in our dictionary."
+  },
+
+  "ES": {
+    "stats": "ESTADISTICAS",
+    "win": "VICTORIA",
+    "lose": "PERDISTE",
+    "solution": "Solución",
+    "answer": "RESPUESTA",
+    "wins": "Ganadas",
+    "losses": "Perdidas",
+    "streak": "Racha",
+    "bestStreak": "Mejor racha",
+    "playAgain": "VOLVER A JUGAR",
+    "wordNotFound": "Palabra inválida",
+    "wordNotFoundDesc": "No estoy diciendo que no exista... pero no está en nuestro diccionario."
+  }
+}

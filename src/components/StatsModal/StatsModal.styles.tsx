@@ -5,6 +5,8 @@ interface StyleProps {
 }
 
 const useStyles = createStyles((theme, { lost }: StyleProps) => {
+  const darkMode = theme.colorScheme === 'dark';
+
   const numberStyles: CSSObject = {
     fontWeight: 'bold',
   };
@@ -38,6 +40,15 @@ const useStyles = createStyles((theme, { lost }: StyleProps) => {
     bestStreak: {
       ...numberStyles,
       color: theme.colors.green[6],
+    },
+
+    playAgainBtn: {
+      color: darkMode ? theme.white : theme.black,
+      backgroundColor: theme.other.green,
+
+      '&:hover': {
+        backgroundColor: theme.fn.darken(theme.other.green, 0.05),
+      },
     },
   };
 });

@@ -9,9 +9,11 @@ import RowCurrent from './Rows/RowCurrent';
 import RowEmpty from './Rows/RowEmpty';
 import lettersJson from '../assets/letters.json';
 import useHistory from '../hooks/useHistory';
-import StatsModal from './StatsModal';
+import StatsModal from './StatsModal/StatsModal';
 import { Refresh } from 'tabler-icons-react';
 import useGameState from '../hooks/useGameState';
+import transl from '../assets/translation.json';
+import useStyles from './Wordle.styles';
 
 const Wordle = () => {
   const {
@@ -25,12 +27,12 @@ const Wordle = () => {
     setGameStatus,
     turn,
     setTurn,
-    gameLanguage,
+    gameLanguage: lang,
   } = useGameState();
+  const { classes } = useStyles();
+  const [statsOpened, setStatsOpened] = useState(false);
   const history = useHistory();
   const theme = useMantineTheme();
-  const [letters, setLetters] = useState<string>('');
-  const [statsOpened, setStatsOpened] = useState(false);
   useWindow('keydown', handleKeyDown);
 
   function handleKeyDown(event: KeyboardEvent) {
@@ -68,13 +70,12 @@ const Wordle = () => {
   }
 
   async function onEnter() {
-    const isValid = await isValidWord(currentWord, gameLanguage);
+    const isValid = await isValidWord(currentWord, lang);
     if (!isValid) {
       cleanNotifications();
       showNotification({
-        title: 'Invalid word',
-        message:
-          "I'm not saying it doesn't exist... but it's not in our dictionary.",
+        title: transl[lang].wordNotFound,
+        message: transl[lang].wordNotFoundDesc,
         color: 'red',
         disallowClose: true,
         autoClose: 4000,
@@ -104,15 +105,11 @@ const Wordle = () => {
     }
 
     if (solution === '') {
-      getWord(gameLanguage).then((w) => {
+      getWord(lang).then((w) => {
         setSolution(w);
       });
     }
   }, [gameStatus, solution]);
-
-  useEffect(() => {
-    setLetters(lettersJson[gameLanguage]);
-  }, [gameLanguage]);
 
   return (
     <>
@@ -141,21 +138,21 @@ const Wordle = () => {
           <Group spacing={'xs'}>
             <ActionIcon
               variant="filled"
-              color={'green'}
+              className={classes.playAgainBtn}
               onClick={() => setStatsOpened(true)}
               size="lg"
             >
-              <Refresh color={theme.white} />
+              <Refresh />
             </ActionIcon>
             <Text size={'xl'}>
-              ANSWER: <b>{solution}</b>
+              {transl[lang].answer}: <b>{solution}</b>
             </Text>
           </Group>
         )}
       </Stack>
 
       <Keyboard
-        letters={letters}
+        letters={lettersJson[lang]}
         onKeyPressed={onKeyPressed}
         completedWords={completedWords}
         solution={solution}

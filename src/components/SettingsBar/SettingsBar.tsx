@@ -15,11 +15,12 @@ import {
   MoonStars,
   Sun,
 } from 'tabler-icons-react';
-import flags from '../../assets/flags.json';
 import useStyles from './SettingsBar.styles';
-import StatsModal from '../StatsModal';
+import StatsModal from '../StatsModal/StatsModal';
 import { AvailableLanguages } from '../../types';
 import useGameState from '../../hooks/useGameState';
+import enFlag from '/assets/gb.svg';
+import esFlag from '/assets/es.svg';
 
 interface LanguagesInterface {
   language: AvailableLanguages;
@@ -29,11 +30,11 @@ interface LanguagesInterface {
 const languages: LanguagesInterface[] = [
   {
     language: 'EN',
-    image: flags.urlEn,
+    image: enFlag,
   },
   {
     language: 'ES',
-    image: flags.urlEs,
+    image: esFlag,
   },
 ];
 

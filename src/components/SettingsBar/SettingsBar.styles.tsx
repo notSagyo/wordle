@@ -15,7 +15,6 @@ const useStyles = createStyles((theme, { opened }: { opened: boolean }) => {
       border: `1px solid ${
         darkMode ? theme.colors.dark[5] : theme.colors.gray[2]
       }`,
-      transition: 'background-color 150ms ease',
       backgroundColor: darkMode
         ? theme.colors.dark[opened ? 4 : 5]
         : opened

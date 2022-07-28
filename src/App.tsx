@@ -29,7 +29,14 @@ export default function App() {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider
-        theme={{ colorScheme, other: { tileSpacing: theme.spacing.xs } }}
+        theme={{
+          colorScheme,
+          other: {
+            tileSpacing: theme.spacing.xs,
+            green: theme.colors.green[colorScheme === 'dark' ? 7 : 3],
+          },
+          black: theme.colors.dark[4],
+        }}
         withGlobalStyles
         withNormalizeCSS
       >
