@@ -19,24 +19,21 @@ import useStyles from './SettingsBar.styles';
 import StatsModal from '../StatsModal/StatsModal';
 import { AvailableLanguages } from '../../types';
 import useGameState from '../../hooks/useGameState';
-import enFlag from '/assets/gb.svg';
-import esFlag from '/assets/es.svg';
+import langJSON from '../../assets/languages.json';
+import { words } from '../../assets/words';
 
 interface LanguagesInterface {
   language: AvailableLanguages;
   image: string;
 }
 
-const languages: LanguagesInterface[] = [
-  {
-    language: 'EN',
-    image: enFlag,
-  },
-  {
-    language: 'ES',
-    image: esFlag,
-  },
-];
+const languages: LanguagesInterface[] = [];
+for (const key in words) {
+  languages.push({
+    language: (key as AvailableLanguages) || 'EN',
+    image: langJSON[key as AvailableLanguages]?.flag || langJSON['EN'].flag,
+  });
+}
 
 const SettingsBar = () => {
   const { gameLanguage, setGameLanguage, playAgain } = useGameState();
@@ -78,7 +75,7 @@ const SettingsBar = () => {
         <Menu
           onOpen={() => setLangOpened(true)}
           onClose={() => setLangOpened(false)}
-          styles={{ body: { width: 100 } }}
+          styles={{ body: { width: 100, minWidth: 'fit-content' } }}
           control={
             <UnstyledButton className={classes.control}>
               <Group spacing="xs">

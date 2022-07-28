@@ -7,12 +7,12 @@ import Keyboard from './Keyboard/Keyboard';
 import RowCompleted from './Rows/RowCompleted';
 import RowCurrent from './Rows/RowCurrent';
 import RowEmpty from './Rows/RowEmpty';
-import lettersJson from '../assets/letters.json';
+import langJSON from '../assets/languages.json';
 import useHistory from '../hooks/useHistory';
 import StatsModal from './StatsModal/StatsModal';
 import { Refresh } from 'tabler-icons-react';
 import useGameState from '../hooks/useGameState';
-import transl from '../assets/translation.json';
+import translationJSON from '../assets/translation.json';
 import useStyles from './Wordle.styles';
 
 const Wordle = () => {
@@ -33,6 +33,9 @@ const Wordle = () => {
   const [statsOpened, setStatsOpened] = useState(false);
   const history = useHistory();
   const theme = useMantineTheme();
+  const transl = translationJSON[lang] || translationJSON['EN'];
+  const letters = langJSON[lang]?.letters || langJSON['EN'].letters;
+  const attepmts = langJSON[lang]?.attempts || langJSON['EN'].attempts;
   useWindow('keydown', handleKeyDown);
 
   function handleKeyDown(event: KeyboardEvent) {
@@ -74,8 +77,8 @@ const Wordle = () => {
     if (!isValid) {
       cleanNotifications();
       showNotification({
-        title: transl[lang].wordNotFound,
-        message: transl[lang].wordNotFoundDesc,
+        title: transl.wordNotFound,
+        message: transl.wordNotFoundDesc,
         color: 'red',
         disallowClose: true,
         autoClose: 4000,
@@ -84,7 +87,7 @@ const Wordle = () => {
     } else if (currentWord === solution) {
       history.addWin(turn);
       setGameStatus('won');
-    } else if (turn === 6) {
+    } else if (turn === attepmts) {
       history.addLoss();
       setGameStatus('lost');
     }
@@ -125,11 +128,13 @@ const Wordle = () => {
         ))}
 
         {/* CURRENT WORD */}
-        {turn <= 6 && <RowCurrent word={currentWord} solution={solution} />}
+        {turn <= attepmts && (
+          <RowCurrent word={currentWord} solution={solution} />
+        )}
 
         {/* EMPTY ROWS */}
-        {turn < 6 &&
-          Array.from(Array(6 - turn)).map((_, i) => (
+        {turn < attepmts &&
+          Array.from(Array(attepmts - turn)).map((_, i) => (
             <RowEmpty solution={solution} key={i} />
           ))}
 
@@ -145,14 +150,14 @@ const Wordle = () => {
               <Refresh />
             </ActionIcon>
             <Text size={'xl'}>
-              {transl[lang].answer}: <b>{solution}</b>
+              {transl.answer}: <b>{solution}</b>
             </Text>
           </Group>
         )}
       </Stack>
 
       <Keyboard
-        letters={lettersJson[lang]}
+        letters={letters}
         onKeyPressed={onKeyPressed}
         completedWords={completedWords}
         solution={solution}

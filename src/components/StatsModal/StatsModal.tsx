@@ -9,7 +9,7 @@ import {
 } from '@mantine/core';
 import _ from 'lodash';
 import { Trash } from 'tabler-icons-react';
-import transl from '../../assets/translation.json';
+import translationJSON from '../../assets/translation.json';
 import useGameState from '../../hooks/useGameState';
 import useHistory from '../../hooks/useHistory';
 import useStyles from './StatsModal.styles';
@@ -30,6 +30,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
   const { losses, maxStreak, streak, wins, resetHistory, guessDistribution } =
     useHistory();
   const { classes } = useStyles({ lost: gameStatus === 'lost' });
+  const transl = translationJSON[lang] || translationJSON['EN'];
 
   function handlePlayAgain() {
     setOpened(false);
@@ -53,37 +54,37 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
         label={
           <Text size="xl" weight="bold">
             {gameStatus === 'won'
-              ? transl[lang].win
+              ? transl.win
               : gameStatus === 'lost'
-              ? transl[lang].lose
-              : transl[lang].stats}
+              ? transl.lose
+              : transl.stats}
           </Text>
         }
       />
       {/* STATS */}
       {gameStatus !== 'playing' && (
         <div>
-          ❓ {transl[lang].solution}:{' '}
+          ❓ {transl.solution}:{' '}
           <Text component="span" className={classes.solution}>
             {solution} <br />
           </Text>
         </div>
       )}
-      ✅ {transl[lang].wins}:{' '}
+      ✅ {transl.wins}:{' '}
       <Text component="span" className={classes.wins}>
         {wins}
       </Text>
-      <br />❌ {transl[lang].losses}:{' '}
+      <br />❌ {transl.losses}:{' '}
       <Text component="span" className={classes.losses}>
         {losses}
       </Text>
       <br />
-      🔥 {transl[lang].streak}:{' '}
+      🔥 {transl.streak}:{' '}
       <Text component="span" className={classes.currentStreak}>
         {streak}
       </Text>
       <br />
-      🥇 {transl[lang].bestStreak}:{' '}
+      🥇 {transl.bestStreak}:{' '}
       <Text component="span" className={classes.bestStreak}>
         {maxStreak}
       </Text>
@@ -95,7 +96,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
         mb={'xs'}
         label={
           <Text size="xl" weight="bold">
-            {transl[lang].guessDistribution}
+            {transl.guessDistribution}
           </Text>
         }
       />
@@ -124,7 +125,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
             autoFocus={true}
             className={classes.playAgainBtn}
           >
-            {transl[lang].playAgain}
+            {transl.playAgain}
           </Button>
         )}
       </Group>

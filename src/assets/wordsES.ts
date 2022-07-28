@@ -3,7 +3,7 @@
  *
  * Repository: https://github.com/mr-sherman/word-master
  */
-export const words = [
+export const wordsES = [
   'SALIR',
   'TENER',
   'TOCAR',

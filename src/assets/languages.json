@@ -1,0 +1,18 @@
+{
+  "EN": {
+    "flag": "/assets/gb.svg",
+    "letters": "QWERTYUIOP ASDFGHJKL ZXCVBNM",
+    "attempts": 6
+  },
+
+  "ES": {
+    "flag": "/assets/es.svg",
+    "letters": "QWERTYUIOP ASDFGHJKLÑ ZXCVBNM",
+    "attempts": 6
+  },
+
+  "LEAGUE": {
+    "flag": "/assets/league.svg",
+    "attempts": 3
+  }
+}

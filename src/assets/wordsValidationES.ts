@@ -6,7 +6,7 @@
  *
  * File: https://raw.githubusercontent.com/lorenbrichter/Words/master/Words/es.txt
  */
-export const words = [
+export const wordsValidationES = [
   'SALIR',
   'TENER',
   'TOCAR',
