@@ -45,6 +45,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
       overlayOpacity={0.85}
       overlayBlur={3}
       className={classes.root}
+      trapFocus={false}
     >
       {/* TITLE */}
       <Divider

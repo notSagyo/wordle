@@ -9,15 +9,17 @@ import { useHotkeys, useLocalStorage, useMediaQuery } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
 import SettingsBar from './components/SettingsBar/SettingsBar';
 import Wordle from './components/Wordle';
+import useCustomTheme from './hooks/useCustomTheme';
 
 export default function App() {
-  const theme = useMantineTheme();
-  const md = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: 'color-scheme',
+    key: 'colorScheme',
     defaultValue: 'dark',
     getInitialValueInEffect: true,
   });
+  const theme = useMantineTheme();
+  const customTheme = useCustomTheme(colorScheme);
+  const md = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
 
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
@@ -31,11 +33,7 @@ export default function App() {
       <MantineProvider
         theme={{
           colorScheme,
-          other: {
-            tileSpacing: theme.spacing.xs,
-            green: theme.colors.green[colorScheme === 'dark' ? 7 : 3],
-          },
-          black: theme.colors.dark[4],
+          ...customTheme,
         }}
         withGlobalStyles
         withNormalizeCSS

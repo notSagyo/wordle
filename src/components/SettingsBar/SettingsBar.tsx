@@ -98,9 +98,9 @@ const SettingsBar = () => {
           size="lg"
         >
           {dark ? (
-            <Sun color={theme.white} />
+            <Sun color={theme.other.foreground} />
           ) : (
-            <MoonStars color={theme.colors.dark[4]} />
+            <MoonStars color={theme.other.foreground} />
           )}
         </ActionIcon>
 
@@ -110,7 +110,7 @@ const SettingsBar = () => {
           onClick={() => setStatsOpened(true)}
           size="lg"
         >
-          <ChartInfographic color={dark ? theme.white : theme.colors.dark[4]} />
+          <ChartInfographic color={theme.other.foreground} />
         </ActionIcon>
       </Group>
     </>

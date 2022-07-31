@@ -42,14 +42,7 @@ const useStyles = createStyles((theme, { lost }: StyleProps) => {
       color: theme.colors.green[6],
     },
 
-    playAgainBtn: {
-      color: darkMode ? theme.white : theme.black,
-      backgroundColor: theme.other.green,
-
-      '&:hover': {
-        backgroundColor: theme.fn.darken(theme.other.green, 0.05),
-      },
-    },
+    playAgainBtn: { ...theme.other.greenButton },
 
     distNumber: {
       color: darkMode ? theme.colors.dark[1] : theme.black,

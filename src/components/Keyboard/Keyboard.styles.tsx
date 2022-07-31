@@ -5,25 +5,22 @@ interface StyleProps {
 }
 
 const useStyles = createStyles((theme, { letterCount }: StyleProps) => {
-  const darkMode = theme.colorScheme === 'dark' ? true : false;
   const desktopGap = 8;
   const mobileGap = 5;
   const keySize = 42;
   const mobileKeyHeight = 64;
   const bigKeyWidth = 64;
   const mobileKeyWidth = `calc((100vw/${letterCount || 10}) - ${mobileGap}px)`;
-  const bgc = darkMode ? theme.colors.dark[3] : theme.colors.gray[4];
+  const bgc = theme.other.editColor;
 
   const keyStyles: CSSObject = {
     width: keySize,
     height: keySize,
     padding: 0,
-    color: darkMode ? theme.white : theme.colors.dark[4],
+    color: theme.other.foreground,
     backgroundColor: bgc,
 
-    '&:hover': {
-      backgroundColor: bgc,
-    },
+    '&:hover': { backgroundColor: bgc },
 
     [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
       width: mobileKeyWidth,
@@ -39,7 +36,6 @@ const useStyles = createStyles((theme, { letterCount }: StyleProps) => {
     bigKey: {
       ...keyStyles,
       width: bigKeyWidth,
-      filter: `saturate(0.75)`,
 
       [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
         width: 'auto',
@@ -69,9 +65,7 @@ const useStyles = createStyles((theme, { letterCount }: StyleProps) => {
     keyboardRow: {
       gap: desktopGap,
 
-      [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
-        gap: mobileGap,
-      },
+      [`@media (max-width: ${theme.breakpoints.xs}px)`]: { gap: mobileGap },
     },
   };
 });
