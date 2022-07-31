@@ -5,7 +5,7 @@ import {
 } from '@mantine/core';
 
 /** Only call this to override MantineProvider's theme */
-const useCustomTheme = (colorScheme: ColorScheme): MantineThemeOverride => {
+const useThemeOverride = (colorScheme: ColorScheme): MantineThemeOverride => {
   const mTheme = useMantineTheme();
   const darkMode = colorScheme === 'dark';
 
@@ -28,15 +28,8 @@ const useCustomTheme = (colorScheme: ColorScheme): MantineThemeOverride => {
       foreground,
       tileSpacing: mTheme.spacing.xs,
       black: mTheme.colors.dark[4],
-
-      greenButton: {
-        color: darkMode ? mTheme.white : mTheme.black,
-        backgroundColor: green,
-
-        '&:hover': { backgroundColor: mTheme.fn.darken(green, 0.05) },
-      },
     },
   };
 };
 
-export default useCustomTheme;
+export default useThemeOverride;

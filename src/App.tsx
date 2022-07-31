@@ -9,7 +9,7 @@ import { useHotkeys, useLocalStorage, useMediaQuery } from '@mantine/hooks';
 import { NotificationsProvider } from '@mantine/notifications';
 import SettingsBar from './components/SettingsBar/SettingsBar';
 import Wordle from './components/Wordle';
-import useCustomTheme from './hooks/useCustomTheme';
+import useThemeOverride from './hooks/useThemeOverride';
 
 export default function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
@@ -18,7 +18,7 @@ export default function App() {
     getInitialValueInEffect: true,
   });
   const theme = useMantineTheme();
-  const customTheme = useCustomTheme(colorScheme);
+  const themeOverride = useThemeOverride(colorScheme);
   const md = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
 
   const toggleColorScheme = (value?: ColorScheme) =>
@@ -33,7 +33,7 @@ export default function App() {
       <MantineProvider
         theme={{
           colorScheme,
-          ...customTheme,
+          ...themeOverride,
         }}
         withGlobalStyles
         withNormalizeCSS

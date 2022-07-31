@@ -11,6 +11,7 @@ import _ from 'lodash';
 import { Trash } from 'tabler-icons-react';
 import translationJSON from '../../assets/translation.json';
 import useGameState from '../../hooks/useGameState';
+import useGlobalStyles from '../../GlobalStyles';
 import useHistory from '../../hooks/useHistory';
 import useStyles from './StatsModal.styles';
 
@@ -29,6 +30,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
   const theme = useMantineTheme();
   const { losses, maxStreak, streak, wins, resetHistory, guessDistribution } =
     useHistory();
+  const { classes: styles } = useGlobalStyles();
   const { classes } = useStyles({ lost: gameStatus === 'lost' });
   const transl = translationJSON?.[lang] || translationJSON['EN'];
 
@@ -123,7 +125,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
           <Button
             onClick={handlePlayAgain}
             autoFocus={true}
-            className={classes.playAgainBtn}
+            className={styles.greenButton}
           >
             {transl.playAgain}
           </Button>

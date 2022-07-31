@@ -13,7 +13,7 @@ import StatsModal from './StatsModal/StatsModal';
 import { Refresh } from 'tabler-icons-react';
 import useGameState from '../hooks/useGameState';
 import translationJSON from '../assets/translation.json';
-import useStyles from './Wordle.styles';
+import useStyles from '../GlobalStyles';
 
 const Wordle = () => {
   const {
@@ -29,7 +29,7 @@ const Wordle = () => {
     setTurn,
     gameLanguage: lang,
   } = useGameState();
-  const { classes } = useStyles();
+  const { classes: styles } = useStyles();
   const [statsOpened, setStatsOpened] = useState(false);
   const history = useHistory();
   const theme = useMantineTheme();
@@ -143,7 +143,7 @@ const Wordle = () => {
           <Group spacing={'xs'}>
             <ActionIcon
               variant="filled"
-              className={classes.playAgainBtn}
+              className={styles.greenButton}
               onClick={() => setStatsOpened(true)}
               size="lg"
             >
