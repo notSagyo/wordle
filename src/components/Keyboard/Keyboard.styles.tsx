@@ -52,7 +52,7 @@ const useStyles = createStyles((theme, { letterCount }: StyleProps) => {
 
     keyboard: {
       gap: desktopGap,
-      marginTop: desktopGap,
+      marginTop: theme.spacing.xl,
       marginBottom: 'auto',
 
       [`@media (max-width: ${theme.breakpoints.md}px)`]: {

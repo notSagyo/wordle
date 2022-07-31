@@ -1,9 +1,9 @@
 import {
   ActionIcon,
+  Button,
   Group,
   Image,
   Menu,
-  UnstyledButton,
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core';
@@ -73,20 +73,22 @@ const SettingsBar = () => {
       <Group p={theme.spacing.md} sx={{ marginBottom: !md ? 'auto' : '' }}>
         {/* LANGUAGE SELECT */}
         <Menu
-          onOpen={() => setLangOpened(true)}
-          onClose={() => setLangOpened(false)}
-          styles={{ body: { width: 100, minWidth: 'fit-content' } }}
-          control={
-            <UnstyledButton className={classes.control}>
+          opened={langOpened}
+          onChange={setLangOpened}
+          position="bottom-start"
+          trigger="hover"
+          width={'fit-content'}
+        >
+          <Menu.Target>
+            <Button variant="default">
               <Group spacing="xs">
                 <Image src={langSelected?.image} width={20} height={15} />
                 <span className={classes.label}>{langSelected?.language}</span>
               </Group>
               <ChevronDown size={16} className={classes.icon} />
-            </UnstyledButton>
-          }
-        >
-          {langItems}
+            </Button>
+          </Menu.Target>
+          <Menu.Dropdown>{langItems}</Menu.Dropdown>
         </Menu>
 
         {/* DARK MODE TOGGLE */}
