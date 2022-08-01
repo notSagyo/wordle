@@ -1,6 +1,7 @@
 import { useLocalStorage } from '@mantine/hooks';
 import { AvailableLanguages, GameStatus } from '../types';
 
+// ?TODO: move to context?
 const useGameState = () => {
   const [currentWord, setCurrentWord] = useLocalStorage<string>({
     key: 'currentWord',

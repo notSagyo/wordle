@@ -36,20 +36,22 @@ for (const key in solutionWords) {
 }
 
 const SettingsBar = () => {
+  // Language
   const { gameLanguage, setGameLanguage, playAgain } = useGameState();
-  const [statsOpened, setStatsOpened] = useState<boolean>(false);
+  const [langOpened, setLangOpened] = useState(false);
   const [langSelected, setLangSelected] = useState(
     languages.find((lang) => lang.language === gameLanguage)
   );
-  const [langOpened, setLangOpened] = useState(false);
+
+  // Theme / Mantine
+  const [statsOpened, setStatsOpened] = useState<boolean>(false);
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { classes } = useStyles({ opened: langOpened });
   const theme = useMantineTheme();
-
   const dark = colorScheme === 'dark';
   const md = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
 
-  const langItems = languages.map((item) => (
+  const langMenuItems = languages.map((item) => (
     <Menu.Item
       icon={<Image src={item.image} width={20} height={15} />}
       onClick={() => setGameLanguage(item.language)}
@@ -88,7 +90,7 @@ const SettingsBar = () => {
               <ChevronDown size={16} className={classes.icon} />
             </Button>
           </Menu.Target>
-          <Menu.Dropdown>{langItems}</Menu.Dropdown>
+          <Menu.Dropdown>{langMenuItems}</Menu.Dropdown>
         </Menu>
 
         {/* DARK MODE TOGGLE */}

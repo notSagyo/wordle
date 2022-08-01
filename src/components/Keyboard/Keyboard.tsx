@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Group, Stack } from '@mantine/core';
+import { Button, Group, Stack, useMantineTheme } from '@mantine/core';
 import useStyles from './Keyboard.styles';
-import tileStyles from '../Tile/Tile.styles';
 import {
   getAbsentLetters,
   getCorrectLetters,
@@ -25,9 +24,9 @@ const Keyboard = ({
   const [correctLetters, setCorrectLetters] = useState<string[]>([]);
   const [presentLetters, setPresentLetters] = useState<string[]>([]);
   const [absentLetters, setAbsentLetters] = useState<string[]>([]);
-  const longestRow = letters.split(' ')[0].length;
+  const longestRow = Math.max(...letters.split(' ').map((w) => w.length));
   const { classes, cx } = useStyles({ letterCount: longestRow });
-  const { classes: tileClasses } = tileStyles();
+  const theme = useMantineTheme();
 
   function handleLetter(event: React.MouseEvent) {
     const content = (event.target as HTMLElement).textContent;
@@ -43,18 +42,20 @@ const Keyboard = ({
   }
 
   useEffect(() => {
-    setCorrectLetters(getCorrectLetters(completedWords, solution));
-    setPresentLetters(getPresentLetters(completedWords, solution));
-    setAbsentLetters(getAbsentLetters(completedWords, solution));
+    setTimeout(() => {
+      setCorrectLetters(getCorrectLetters(completedWords, solution));
+      setPresentLetters(getPresentLetters(completedWords, solution));
+      setAbsentLetters(getAbsentLetters(completedWords, solution));
+    }, theme.other.showDelay * 1000);
   }, [completedWords, solution]);
 
   function getStatusClass(letter: string) {
-    if (correctLetters.includes(letter)) return tileClasses.correct;
-    if (presentLetters.includes(letter)) return tileClasses.present;
-    if (absentLetters.includes(letter)) return tileClasses.absent;
+    if (correctLetters.includes(letter)) return classes.correct;
+    if (presentLetters.includes(letter)) return classes.present;
+    if (absentLetters.includes(letter)) return classes.absent;
   }
 
-  const rows = (
+  return (
     <Stack className={classes.keyboard}>
       {/* MAP ROWS */}
       {letters.split(' ').map((row, i) => (
@@ -85,8 +86,6 @@ const Keyboard = ({
       ))}
     </Stack>
   );
-
-  return <>{rows}</>;
 };
 
 export default Keyboard;

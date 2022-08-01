@@ -1,11 +1,19 @@
-import { createStyles } from '@mantine/core';
+import { createStyles, keyframes } from '@mantine/core';
 
 const useStyles = createStyles((theme) => {
-  const emptyColor = theme.other.emptyColor;
-  const absentColor = theme.other.absentColor;
-  const editColor = theme.other.editColor;
-  const presentColor = theme.other.yellow;
-  const correctColor = theme.other.green;
+  const pitch = (color: string) =>
+    keyframes({
+      '0%': {
+        transform: 'rotate3d(0, 0, 0)',
+        backgroundColor: theme.other.editColor,
+      },
+      '50%': {
+        transform: 'rotate3d(1, 0, 0, 90deg)',
+        backgroundColor: theme.other.editColor,
+      },
+      '51%': { backgroundColor: color },
+      '100%': { backgroundColor: color },
+    });
 
   return {
     tile: {
@@ -17,29 +25,22 @@ const useStyles = createStyles((theme) => {
       fontSize: theme.fontSizes.xl,
     },
 
-    edit: {
-      backgroundColor: editColor,
-      '&:hover': { backgroundColor: editColor },
-    },
-
-    empty: {
-      backgroundColor: emptyColor,
-      '&:hover': { backgroundColor: emptyColor },
-    },
-
+    edit: { backgroundColor: theme.other.editColor },
+    empty: { backgroundColor: theme.other.emptyColor },
     absent: {
-      backgroundColor: absentColor,
-      '&:hover': { backgroundColor: absentColor },
+      backgroundColor: theme.other.absentColor,
+      animation: `${pitch(theme.other.absentColor)}
+        ${theme.other.showDelay}s forwards`,
     },
-
     present: {
-      backgroundColor: presentColor,
-      '&:hover': { backgroundColor: presentColor },
+      backgroundColor: theme.other.yellow,
+      animation: `${pitch(theme.other.yellow)}
+        ${theme.other.showDelay}s forwards`,
     },
-
     correct: {
-      backgroundColor: correctColor,
-      '&:hover': { backgroundColor: correctColor },
+      backgroundColor: theme.other.green,
+      animation: `${pitch(theme.other.green)}
+        ${theme.other.showDelay}s forwards`,
     },
   };
 });

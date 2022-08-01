@@ -26,6 +26,7 @@ const useThemeOverride = (colorScheme: ColorScheme): MantineThemeOverride => {
       emptyColor,
       absentColor,
       foreground,
+      showDelay: 1,
       tileSpacing: mTheme.spacing.xs,
       black: mTheme.colors.dark[4],
     },

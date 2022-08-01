@@ -29,9 +29,7 @@ const useStyles = createStyles((theme, { letterCount }: StyleProps) => {
   };
 
   return {
-    key: {
-      ...keyStyles,
-    },
+    key: { ...keyStyles },
 
     bigKey: {
       ...keyStyles,
@@ -58,14 +56,37 @@ const useStyles = createStyles((theme, { letterCount }: StyleProps) => {
       [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
         gap: mobileGap,
         marginTop: mobileGap,
-        marginBottom: mobileGap,
       },
     },
 
     keyboardRow: {
       gap: desktopGap,
-
       [`@media (max-width: ${theme.breakpoints.xs}px)`]: { gap: mobileGap },
+    },
+
+    edit: {
+      backgroundColor: theme.other.editColor,
+      '&:hover': { backgroundColor: theme.other.editColor },
+    },
+
+    empty: {
+      backgroundColor: theme.other.emptyColor,
+      '&:hover': { backgroundColor: theme.other.emptyColor },
+    },
+
+    absent: {
+      backgroundColor: theme.other.absentColor,
+      '&:hover': { backgroundColor: theme.other.absentColor },
+    },
+
+    present: {
+      backgroundColor: theme.other.yellow,
+      '&:hover': { backgroundColor: theme.other.yellow },
+    },
+
+    correct: {
+      backgroundColor: theme.other.green,
+      '&:hover': { backgroundColor: theme.other.green },
     },
   };
 });

@@ -108,7 +108,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
             <Text className={classes.distNumber}>{i + 1}</Text>
             <Progress
               radius={'xs'}
-              value={(guess / _.sum(guessDistribution)) * 100}
+              value={(guess / (_.max(guessDistribution) || guess)) * 100}
               sx={{ flexGrow: 1 }}
               color={theme.other.green}
             />

@@ -15,7 +15,9 @@ import useGameState from '../hooks/useGameState';
 import translationJSON from '../assets/translation.json';
 import useStyles from '../GlobalStyles';
 
+// TODO: Split responsibilities
 const Wordle = () => {
+  // GAME HOOKS
   const {
     currentWord,
     setCurrentWord,
@@ -29,15 +31,19 @@ const Wordle = () => {
     setTurn,
     gameLanguage: lang,
   } = useGameState();
-  const { classes: styles } = useStyles();
-  const [statsOpened, setStatsOpened] = useState(false);
   const history = useHistory();
+
+  // MANTINE
+  const [statsOpened, setStatsOpened] = useState(false);
+  const { classes: styles } = useStyles();
   const theme = useMantineTheme();
+
+  // TRANSLATION
   const transl = translationJSON?.[lang] || translationJSON['EN'];
   const letters = langJSON?.[lang]?.letters || langJSON['EN'].letters;
   const attepmts = langJSON?.[lang]?.attempts || langJSON['EN'].attempts;
-  useWindow('keydown', handleKeyDown);
 
+  useWindow('keydown', handleKeyDown);
   function handleKeyDown(event: KeyboardEvent) {
     if (
       gameStatus !== 'playing' ||
@@ -84,18 +90,26 @@ const Wordle = () => {
         autoClose: 4000,
       });
       return;
-    } else if (currentWord === solution) {
-      history.addWin(turn);
-      setGameStatus('won');
-    } else if (turn === attepmts) {
-      history.addLoss();
-      setGameStatus('lost');
     }
+
+    if (currentWord === solution) {
+      setTimeout(() => {
+        history.addWin(turn);
+        setGameStatus('won');
+      }, theme.other.showDelay * 1000 + 500);
+    } else if (turn === attepmts) {
+      setTimeout(() => {
+        history.addLoss();
+        setGameStatus('lost');
+      }, theme.other.showDelay * 1000 + 500);
+    }
+
     setCompletedWords([...completedWords, currentWord]);
     setCurrentWord('');
     setTurn(turn + 1);
   }
 
+  // ON GAME STATUS CHANGE
   useEffect(() => {
     if (gameStatus !== 'playing') {
       setStatsOpened(true);
