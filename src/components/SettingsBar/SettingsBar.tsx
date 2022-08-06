@@ -7,11 +7,12 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { useFullscreen, useMediaQuery } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import {
   ChartInfographic,
   ChevronDown,
+  Maximize,
   MoonStars,
   Sun,
 } from 'tabler-icons-react';
@@ -45,12 +46,14 @@ const SettingsBar = () => {
 
   // Theme / Mantine
   const [statsOpened, setStatsOpened] = useState<boolean>(false);
+  const { toggle: toggleFullscreen } = useFullscreen();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { classes } = useStyles({ opened: langOpened });
   const theme = useMantineTheme();
   const dark = colorScheme === 'dark';
   const md = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
 
+  // LANGUAGE MENU ITEMS
   const langMenuItems = languages.map((item) => (
     <Menu.Item
       icon={<Image src={item.image} width={20} height={15} />}
@@ -61,6 +64,7 @@ const SettingsBar = () => {
     </Menu.Item>
   ));
 
+  // ON CHANGE LANGUAGE
   useEffect(() => {
     const newLang = languages.find((lang) => lang.language === gameLanguage);
     if (newLang && langSelected?.language !== gameLanguage) {
@@ -113,6 +117,16 @@ const SettingsBar = () => {
           size="lg"
         >
           <ChartInfographic color={theme.other.foreground} />
+        </ActionIcon>
+
+        {/* FULL SCREEN */}
+        <ActionIcon
+          variant="default"
+          onClick={toggleFullscreen}
+          size="lg"
+          ml={'auto'}
+        >
+          <Maximize color={theme.other.foreground} />
         </ActionIcon>
       </Group>
     </>
