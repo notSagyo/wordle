@@ -16,12 +16,12 @@ import {
   MoonStars,
   Sun,
 } from 'tabler-icons-react';
-import useStyles from './SettingsBar.styles';
-import StatsModal from '../StatsModal/StatsModal';
-import { AvailableLanguages } from '../../types';
+import langJSON from '../../data/languages.json';
+import { solutionWords } from '../../data/solutions';
 import useGameState from '../../hooks/useGameState';
-import langJSON from '../../assets/languages.json';
-import { solutionWords } from '../../assets/solutions';
+import { AvailableLanguages } from '../../types';
+import StatsModal from '../StatsModal/StatsModal';
+import useStyles from './SettingsBar.styles';
 
 interface LanguagesInterface {
   language: AvailableLanguages;

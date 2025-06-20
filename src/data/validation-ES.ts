@@ -1,5 +1,5 @@
 /**
- * Word list obtained from
+ * Word list pruned from
  *
  * Repository: https://github.com/lorenbrichter/Words
  *

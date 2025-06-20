@@ -1,5 +1,5 @@
-import { validationWords } from '../assets/validation';
-import { solutionWords } from '../assets/solutions';
+import { solutionWords } from '../data/solutions';
+import { validationWords } from '../data/validation';
 import { AvailableLanguages } from '../types';
 
 //* Keeping everything async in case I decide to fetch the data from an API

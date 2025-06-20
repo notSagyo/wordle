@@ -1,5 +1,5 @@
 /**
- * Most words obtained from the "Free Dictionary API".
+ * Most words pruned from the "Free Dictionary API".
  *
  * Site: https://dictionaryapi.dev/
  *

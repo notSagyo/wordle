@@ -1,17 +1,17 @@
 import {
-  Modal,
   Button,
-  Text,
   Divider,
   Group,
+  Modal,
   Progress,
+  Text,
   useMantineTheme,
 } from '@mantine/core';
 import _ from 'lodash';
 import { Trash } from 'tabler-icons-react';
-import translationJSON from '../../assets/translation.json';
-import useGameState from '../../hooks/useGameState';
+import translationJSON from '../../data/translation.json';
 import useGlobalStyles from '../../GlobalStyles';
+import useGameState from '../../hooks/useGameState';
 import useHistory from '../../hooks/useHistory';
 import useStyles from './StatsModal.styles';
 

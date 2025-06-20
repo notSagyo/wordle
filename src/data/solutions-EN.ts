@@ -1,12 +1,12 @@
 /**
- * Word list obtained from:
+ * Word list pruned from:
  *
  * Repositories:
  * https://github.com/first20hours/google-10000-english/
  * https://gist.github.com/cfreshman/a7b776506c73284511034e63af1017ee
  * https://gist.github.com/cfreshman/cdcdf777450c5b5301e439061d29694c
  */
-export const solutionesEN = [
+export const solutionsEN = [
   'ABACK',
   'ABASE',
   'ABATE',

@@ -1,19 +1,19 @@
-import { Stack, useMantineTheme, Text, Group, ActionIcon } from '@mantine/core';
+import { ActionIcon, Group, Stack, Text, useMantineTheme } from '@mantine/core';
 import { cleanNotifications, showNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
+import { Refresh } from 'tabler-icons-react';
+import langJSON from '../data/languages.json';
+import translationJSON from '../data/translation.json';
+import useStyles from '../GlobalStyles';
+import useGameState from '../hooks/useGameState';
+import useHistory from '../hooks/useHistory';
 import useWindow from '../hooks/useWindow';
 import { getWord, isValidWord } from '../services/words';
 import Keyboard from './Keyboard/Keyboard';
 import RowCompleted from './Rows/RowCompleted';
 import RowCurrent from './Rows/RowCurrent';
 import RowEmpty from './Rows/RowEmpty';
-import langJSON from '../assets/languages.json';
-import useHistory from '../hooks/useHistory';
 import StatsModal from './StatsModal/StatsModal';
-import { Refresh } from 'tabler-icons-react';
-import useGameState from '../hooks/useGameState';
-import translationJSON from '../assets/translation.json';
-import useStyles from '../GlobalStyles';
 
 // TODO: Split responsibilities
 const Wordle = () => {
