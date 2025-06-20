@@ -21,8 +21,8 @@ const Wordle = () => {
   const {
     currentWord,
     setCurrentWord,
-    completedWords,
-    setCompletedWords,
+    guessedWords,
+    setGuessedWords,
     solution,
     setSolution,
     gameStatus,
@@ -39,9 +39,9 @@ const Wordle = () => {
   const theme = useMantineTheme();
 
   // TRANSLATION
-  const transl = translationJSON?.[lang] || translationJSON['EN'];
+  const t9n = translationJSON?.[lang] || translationJSON['EN'];
   const letters = langJSON?.[lang]?.letters || langJSON['EN'].letters;
-  const attepmts = langJSON?.[lang]?.attempts || langJSON['EN'].attempts;
+  const attempts = langJSON?.[lang]?.attempts || langJSON['EN'].attempts;
 
   useWindow('keydown', handleKeyDown);
   function handleKeyDown(event: KeyboardEvent) {
@@ -83,8 +83,8 @@ const Wordle = () => {
     if (!isValid) {
       cleanNotifications();
       showNotification({
-        title: transl.wordNotFound,
-        message: transl.wordNotFoundDesc,
+        title: t9n.wordNotFound,
+        message: t9n.wordNotFoundDesc,
         color: 'red',
         disallowClose: true,
         autoClose: 4000,
@@ -96,15 +96,15 @@ const Wordle = () => {
       setTimeout(() => {
         history.addWin(turn);
         setGameStatus('won');
-      }, theme.other.showDelay * 1000 + 500);
-    } else if (turn === attepmts) {
+      }, theme.other.animationDuration + 500);
+    } else if (turn === attempts) {
       setTimeout(() => {
         history.addLoss();
         setGameStatus('lost');
-      }, theme.other.showDelay * 1000 + 500);
+      }, theme.other.animationDuration + 500);
     }
 
-    setCompletedWords([...completedWords, currentWord]);
+    setGuessedWords([...guessedWords, currentWord]);
     setCurrentWord('');
     setTurn(turn + 1);
   }
@@ -116,9 +116,9 @@ const Wordle = () => {
       return;
     }
 
-    if (completedWords.length > 0) {
-      setCompletedWords(completedWords);
-      setTurn(completedWords.length + 1);
+    if (guessedWords.length > 0) {
+      setGuessedWords(guessedWords);
+      setTurn(guessedWords.length + 1);
     }
 
     if (solution === '') {
@@ -136,19 +136,19 @@ const Wordle = () => {
         align={'center'}
         spacing={theme.other.tileSpacing}
       >
-        {/* COMPLETED WORDS */}
-        {completedWords.map((word, i) => (
-          <RowCompleted key={i} word={word} solution={solution} />
+        {/* GUESSED WORDS */}
+        {guessedWords.map((word, i) => (
+          <RowCompleted key={i} guess={word} solution={solution} />
         ))}
 
         {/* CURRENT WORD */}
-        {turn <= attepmts && (
-          <RowCurrent word={currentWord} solution={solution} />
+        {turn <= attempts && (
+          <RowCurrent guess={currentWord} solution={solution} />
         )}
 
         {/* EMPTY ROWS */}
-        {turn < attepmts &&
-          Array.from(Array(attepmts - turn)).map((_, i) => (
+        {turn < attempts &&
+          Array.from(Array(attempts - turn)).map((_, i) => (
             <RowEmpty solution={solution} key={i} />
           ))}
 
@@ -164,17 +164,19 @@ const Wordle = () => {
               <Refresh />
             </ActionIcon>
             <Text size={'xl'}>
-              {transl.answer}: <b>{solution}</b>
+              {t9n.answer}: <b>{solution}</b>
             </Text>
           </Group>
         )}
       </Stack>
 
       <Keyboard
+        key={lang}
         letters={letters}
         onKeyPressed={onKeyPressed}
-        completedWords={completedWords}
+        guessedWords={guessedWords}
         solution={solution}
+        gameStatus={gameStatus}
       />
     </>
   );

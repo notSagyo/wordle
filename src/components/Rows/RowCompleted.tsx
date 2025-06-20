@@ -3,11 +3,16 @@ import { TileStatus } from '../../types';
 import Tile from '../Tile/Tile';
 
 interface RowCompletedProps {
-  word: string;
+  guess: string;
   solution: string;
+  animationOverlap?: number;
 }
 
-const RowCompleted = ({ word, solution }: RowCompletedProps) => {
+const RowCompleted = ({
+  guess,
+  solution,
+  animationOverlap = 0.25,
+}: RowCompletedProps) => {
   const theme = useMantineTheme();
   const checkLetter = (letter: string, pos: number): TileStatus => {
     if (solution[pos] === letter) return 'correct';
@@ -18,7 +23,20 @@ const RowCompleted = ({ word, solution }: RowCompletedProps) => {
   const tilesRow = solution
     .split('')
     .map((_, i) => (
-      <Tile key={i} status={checkLetter(word[i], i)} value={word[i]} />
+      <Tile
+        key={i}
+        animationDelay={
+          (theme.other.animationDuration / solution.length) *
+          i *
+          (1 - animationOverlap)
+        }
+        animationDuration={
+          theme.other.animationDuration / solution.length +
+          animationOverlap * theme.other.animationDuration
+        }
+        status={checkLetter(guess[i], i)}
+        value={guess[i]}
+      />
     ));
 
   return <Group spacing={theme.other.tileSpacing}>{tilesRow}</Group>;

@@ -5,10 +5,17 @@ import useStyles from './Tile.styles';
 interface TileProps {
   value: string;
   status: TileStatus;
+  animationDelay?: number;
+  animationDuration?: number;
 }
 
-const Tile = ({ value, status }: TileProps) => {
-  const { classes, cx } = useStyles();
+const Tile = ({
+  value,
+  status,
+  animationDelay = 0,
+  animationDuration = 500,
+}: TileProps) => {
+  const { classes, cx } = useStyles({ animationDelay, animationDuration });
 
   const statusClasses = cx(classes.tile, {
     [classes.correct]: status === 'correct',

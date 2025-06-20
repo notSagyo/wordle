@@ -4,6 +4,8 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 
+const ANIMATION_SPEED = 0.75;
+
 /** Only call this to override MantineProvider's theme */
 const useThemeOverride = (colorScheme: ColorScheme): MantineThemeOverride => {
   const mTheme = useMantineTheme();
@@ -26,7 +28,7 @@ const useThemeOverride = (colorScheme: ColorScheme): MantineThemeOverride => {
       emptyColor,
       absentColor,
       foreground,
-      showDelay: 1,
+      animationDuration: (1 / ANIMATION_SPEED) * 1000,
       tileSpacing: mTheme.spacing.xs,
       black: mTheme.colors.dark[4],
     },

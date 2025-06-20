@@ -8,8 +8,8 @@ const useGameState = () => {
     defaultValue: '',
   });
 
-  const [completedWords, setCompletedWords] = useLocalStorage<string[]>({
-    key: 'completedWords',
+  const [guessedWords, setGuessedWords] = useLocalStorage<string[]>({
+    key: 'guessedWords',
     defaultValue: [],
   });
 
@@ -35,7 +35,7 @@ const useGameState = () => {
 
   function playAgain() {
     setGameStatus('playing');
-    setCompletedWords([]);
+    setGuessedWords([]);
     setCurrentWord('');
     setSolution('');
     setTurn(1);
@@ -44,8 +44,8 @@ const useGameState = () => {
   return {
     currentWord,
     setCurrentWord,
-    completedWords,
-    setCompletedWords,
+    guessedWords,
+    setGuessedWords,
     solution,
     setSolution,
     gameStatus,

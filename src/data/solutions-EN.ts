@@ -129,7 +129,6 @@ export const solutionsEN = [
   'AWAKE',
   'AWARD',
   'AWARE',
-  'AWASH',
   'AWFUL',
   'AWOKE',
   'AXIAL',

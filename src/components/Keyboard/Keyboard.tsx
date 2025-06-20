@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from 'react';
 import { Button, Group, Stack, useMantineTheme } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
+import { Backspace } from 'tabler-icons-react';
+import { GameStatus } from '../../types';
 import useStyles from './Keyboard.styles';
 import {
   getAbsentLetters,
   getCorrectLetters,
   getPresentLetters,
 } from './KeyboardHelper';
-import { Backspace } from 'tabler-icons-react';
 
 interface KeyboardProps {
   letters: string;
-  completedWords: string[];
+  guessedWords: string[];
   solution: string;
+  gameStatus: GameStatus;
   onKeyPressed: (key: string) => void;
 }
 
 const Keyboard = ({
   letters,
-  onKeyPressed,
-  completedWords,
+  guessedWords,
   solution,
+  gameStatus,
+  onKeyPressed,
 }: KeyboardProps) => {
   const [correctLetters, setCorrectLetters] = useState<string[]>([]);
   const [presentLetters, setPresentLetters] = useState<string[]>([]);
@@ -42,12 +45,16 @@ const Keyboard = ({
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      setCorrectLetters(getCorrectLetters(completedWords, solution));
-      setPresentLetters(getPresentLetters(completedWords, solution));
-      setAbsentLetters(getAbsentLetters(completedWords, solution));
-    }, theme.other.showDelay * 1000);
-  }, [completedWords, solution]);
+    const updateGuessedWords = () => {
+      setCorrectLetters(getCorrectLetters(guessedWords, solution));
+      setPresentLetters(getPresentLetters(guessedWords, solution));
+      setAbsentLetters(getAbsentLetters(guessedWords, solution));
+    };
+
+    if (gameStatus === 'playing') {
+      setTimeout(() => updateGuessedWords(), theme.other.animationDuration);
+    } else updateGuessedWords();
+  }, [guessedWords, solution]);
 
   function getStatusClass(letter: string) {
     if (correctLetters.includes(letter)) return classes.correct;

@@ -2,20 +2,20 @@ import { Group, useMantineTheme } from '@mantine/core';
 import Tile from '../Tile/Tile';
 
 interface RowCompletedProps {
-  word: string;
+  guess: string;
   solution: string;
 }
 
-const RowCurrent = ({ word, solution }: RowCompletedProps) => {
+const RowCurrent = ({ guess, solution }: RowCompletedProps) => {
   const theme = useMantineTheme();
 
-  const editTiles = word
+  const editTiles = guess
     .split('')
     .map((letter, i) => <Tile key={i} status="edit" value={letter} />);
 
-  const emptytiles =
-    solution.length > word.length
-      ? Array.from(Array(solution.length - word.length)).map((letter, i) => (
+  const emptyTiles =
+    solution.length > guess.length
+      ? Array.from(Array(solution.length - guess.length)).map((letter, i) => (
           <Tile key={i} status="empty" value={letter} />
         ))
       : [];
@@ -23,7 +23,7 @@ const RowCurrent = ({ word, solution }: RowCompletedProps) => {
   return (
     <Group spacing={theme.other.tileSpacing}>
       {editTiles}
-      {emptytiles}
+      {emptyTiles}
     </Group>
   );
 };
