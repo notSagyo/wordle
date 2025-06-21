@@ -9,9 +9,9 @@ import {
 } from '@mantine/core';
 import _ from 'lodash';
 import { Trash } from 'tabler-icons-react';
+import { useGameContext } from '../../context/GameProvider';
 import translationJSON from '../../data/translation.json';
 import useGlobalStyles from '../../GlobalStyles';
-import useGameState from '../../hooks/useGameState';
 import useHistory from '../../hooks/useHistory';
 import useStyles from './StatsModal.styles';
 
@@ -23,20 +23,20 @@ interface StatsModalProps {
 const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
   const {
     gameStatus,
-    playAgain,
+    resetGame,
     solution,
     gameLanguage: lang,
-  } = useGameState();
+  } = useGameContext();
   const theme = useMantineTheme();
   const { losses, maxStreak, streak, wins, resetHistory, guessDistribution } =
     useHistory();
   const { classes: styles } = useGlobalStyles();
   const { classes } = useStyles({ lost: gameStatus === 'lost' });
-  const transl = translationJSON?.[lang] || translationJSON['EN'];
+  const t9n = translationJSON?.[lang] || translationJSON['EN'];
 
   function handlePlayAgain() {
     setOpened(false);
-    playAgain();
+    resetGame();
   }
 
   return (
@@ -56,37 +56,37 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
         label={
           <Text size="xl" weight="bold">
             {gameStatus === 'won'
-              ? transl.win
+              ? t9n.win
               : gameStatus === 'lost'
-              ? transl.lose
-              : transl.stats}
+              ? t9n.lose
+              : t9n.stats}
           </Text>
         }
       />
       {/* STATS */}
       {gameStatus !== 'playing' && (
         <div>
-          ❓ {transl.solution}:{' '}
+          ❓ {t9n.solution}:{' '}
           <Text component="span" className={classes.solution}>
             {solution} <br />
           </Text>
         </div>
       )}
-      ✅ {transl.wins}:{' '}
+      ✅ {t9n.wins}:{' '}
       <Text component="span" className={classes.wins}>
         {wins}
       </Text>
-      <br />❌ {transl.losses}:{' '}
+      <br />❌ {t9n.losses}:{' '}
       <Text component="span" className={classes.losses}>
         {losses}
       </Text>
       <br />
-      🔥 {transl.streak}:{' '}
+      🔥 {t9n.streak}:{' '}
       <Text component="span" className={classes.currentStreak}>
         {streak}
       </Text>
       <br />
-      🥇 {transl.bestStreak}:{' '}
+      🥇 {t9n.bestStreak}:{' '}
       <Text component="span" className={classes.bestStreak}>
         {maxStreak}
       </Text>
@@ -98,7 +98,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
         mb={'xs'}
         label={
           <Text size="xl" weight="bold">
-            {transl.guessDistribution}
+            {t9n.guessDistribution}
           </Text>
         }
       />
@@ -127,7 +127,7 @@ const StatsModal = ({ opened, setOpened }: StatsModalProps) => {
             autoFocus={true}
             className={styles.greenButton}
           >
-            {transl.playAgain}
+            {t9n.playAgain}
           </Button>
         )}
       </Group>

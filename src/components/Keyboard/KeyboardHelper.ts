@@ -1,11 +1,9 @@
 import _ from 'lodash';
 
 export const getCorrectLetters = (words: string[], solution: string) => {
-  const correctLetters = _.uniq(
-    _.flatten(
-      words.map((word) =>
-        word.split('').filter((letter, i) => letter === solution[i])
-      )
+  const correctLetters = _.flatten(
+    words.map((word) =>
+      word.split('').filter((letter, i) => letter === solution[i])
     )
   );
 

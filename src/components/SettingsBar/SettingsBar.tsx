@@ -8,7 +8,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { useFullscreen, useMediaQuery } from '@mantine/hooks';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   ChartInfographic,
   ChevronDown,
@@ -16,19 +16,19 @@ import {
   MoonStars,
   Sun,
 } from 'tabler-icons-react';
+import { useGameContext } from '../../context/GameProvider';
 import langJSON from '../../data/languages.json';
 import { solutionWords } from '../../data/solutions';
-import useGameState from '../../hooks/useGameState';
 import { AvailableLanguages } from '../../types';
 import StatsModal from '../StatsModal/StatsModal';
 import useStyles from './SettingsBar.styles';
 
-interface LanguagesInterface {
+interface ILanguages {
   language: AvailableLanguages;
   image: string;
 }
 
-const languages: LanguagesInterface[] = [];
+const languages: ILanguages[] = [];
 for (const key in solutionWords) {
   languages.push({
     language: (key as AvailableLanguages) || 'EN',
@@ -38,10 +38,11 @@ for (const key in solutionWords) {
 
 const SettingsBar = () => {
   // Language
-  const { gameLanguage, setGameLanguage, playAgain } = useGameState();
+  const { gameLanguage, setGameLanguage, resetGame } = useGameContext();
   const [langOpened, setLangOpened] = useState(false);
-  const [langSelected, setLangSelected] = useState(
-    languages.find((lang) => lang.language === gameLanguage)
+  const langSelected = useMemo(
+    () => languages.find((lang) => lang.language === gameLanguage),
+    [gameLanguage]
   );
 
   // Theme / Mantine
@@ -53,25 +54,25 @@ const SettingsBar = () => {
   const dark = colorScheme === 'dark';
   const md = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
 
+  // ON CHANGE LANGUAGE
+  function handleLanguageChange(language: AvailableLanguages) {
+    const newLang = languages.find((lang) => lang.language === language);
+    if (newLang && langSelected?.language !== language) {
+      setGameLanguage(language);
+      resetGame();
+    }
+  }
+
   // LANGUAGE MENU ITEMS
   const langMenuItems = languages.map((item) => (
     <Menu.Item
       icon={<Image src={item.image} width={20} height={15} />}
-      onClick={() => setGameLanguage(item.language)}
+      onClick={() => handleLanguageChange(item.language)}
       key={item.language}
     >
       {item.language}
     </Menu.Item>
   ));
-
-  // ON CHANGE LANGUAGE
-  useEffect(() => {
-    const newLang = languages.find((lang) => lang.language === gameLanguage);
-    if (newLang && langSelected?.language !== gameLanguage) {
-      setLangSelected(newLang);
-      playAgain();
-    }
-  }, [gameLanguage]);
 
   return (
     <>

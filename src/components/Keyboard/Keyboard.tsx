@@ -45,15 +45,16 @@ const Keyboard = ({
   }
 
   useEffect(() => {
-    const updateGuessedWords = () => {
-      setCorrectLetters(getCorrectLetters(guessedWords, solution));
-      setPresentLetters(getPresentLetters(guessedWords, solution));
-      setAbsentLetters(getAbsentLetters(guessedWords, solution));
-    };
+    const timeoutId = setTimeout(
+      () => {
+        setCorrectLetters(getCorrectLetters(guessedWords, solution));
+        setPresentLetters(getPresentLetters(guessedWords, solution));
+        setAbsentLetters(getAbsentLetters(guessedWords, solution));
+      },
+      guessedWords.length > 0 ? theme.other.animationDuration : 0
+    );
 
-    if (gameStatus === 'playing') {
-      setTimeout(() => updateGuessedWords(), theme.other.animationDuration);
-    } else updateGuessedWords();
+    return () => clearTimeout(timeoutId);
   }, [guessedWords, solution]);
 
   function getStatusClass(letter: string) {

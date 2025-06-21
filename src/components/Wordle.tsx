@@ -1,13 +1,13 @@
 import { ActionIcon, Group, Stack, Text, useMantineTheme } from '@mantine/core';
+import { useWindowEvent } from '@mantine/hooks';
 import { cleanNotifications, showNotification } from '@mantine/notifications';
 import { useEffect, useState } from 'react';
 import { Refresh } from 'tabler-icons-react';
+import { useGameContext } from '../context/GameProvider';
 import langJSON from '../data/languages.json';
 import translationJSON from '../data/translation.json';
 import useStyles from '../GlobalStyles';
-import useGameState from '../hooks/useGameState';
 import useHistory from '../hooks/useHistory';
-import useWindow from '../hooks/useWindow';
 import { getWord, isValidWord } from '../services/words';
 import Keyboard from './Keyboard/Keyboard';
 import RowCompleted from './Rows/RowCompleted';
@@ -19,6 +19,7 @@ import StatsModal from './StatsModal/StatsModal';
 const Wordle = () => {
   // GAME HOOKS
   const {
+    ready,
     currentWord,
     setCurrentWord,
     guessedWords,
@@ -30,7 +31,7 @@ const Wordle = () => {
     turn,
     setTurn,
     gameLanguage: lang,
-  } = useGameState();
+  } = useGameContext();
   const history = useHistory();
 
   // MANTINE
@@ -43,7 +44,7 @@ const Wordle = () => {
   const letters = langJSON?.[lang]?.letters || langJSON['EN'].letters;
   const attempts = langJSON?.[lang]?.attempts || langJSON['EN'].attempts;
 
-  useWindow('keydown', handleKeyDown);
+  useWindowEvent('keydown', handleKeyDown);
   function handleKeyDown(event: KeyboardEvent) {
     if (
       gameStatus !== 'playing' ||
@@ -116,17 +117,10 @@ const Wordle = () => {
       return;
     }
 
-    if (guessedWords.length > 0) {
-      setGuessedWords(guessedWords);
-      setTurn(guessedWords.length + 1);
+    if (solution === '' && ready) {
+      getWord(lang).then((w) => setSolution(w));
     }
-
-    if (solution === '') {
-      getWord(lang).then((w) => {
-        setSolution(w);
-      });
-    }
-  }, [gameStatus, solution]);
+  }, [gameStatus, solution, ready]);
 
   return (
     <>
@@ -137,9 +131,9 @@ const Wordle = () => {
         spacing={theme.other.tileSpacing}
       >
         {/* GUESSED WORDS */}
-        {guessedWords.map((word, i) => (
-          <RowCompleted key={i} guess={word} solution={solution} />
-        ))}
+        {guessedWords.map((word, i) => {
+          return <RowCompleted key={i} guess={word} solution={solution} />;
+        })}
 
         {/* CURRENT WORD */}
         {turn <= attempts && (
@@ -169,15 +163,16 @@ const Wordle = () => {
           </Group>
         )}
       </Stack>
-
-      <Keyboard
-        key={lang}
-        letters={letters}
-        onKeyPressed={onKeyPressed}
-        guessedWords={guessedWords}
-        solution={solution}
-        gameStatus={gameStatus}
-      />
+      {ready && (
+        <Keyboard
+          key={lang}
+          letters={letters}
+          guessedWords={guessedWords}
+          solution={solution}
+          gameStatus={gameStatus}
+          onKeyPressed={onKeyPressed}
+        />
+      )}
     </>
   );
 };
